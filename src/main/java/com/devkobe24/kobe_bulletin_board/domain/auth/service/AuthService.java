@@ -2,12 +2,18 @@ package com.devkobe24.kobe_bulletin_board.domain.auth.service;
 
 import com.devkobe24.kobe_bulletin_board.common.exception.CustomException;
 import com.devkobe24.kobe_bulletin_board.common.exception.ResponseCode;
+import com.devkobe24.kobe_bulletin_board.domain.auth.model.request.CreateManagerRequest;
 import com.devkobe24.kobe_bulletin_board.domain.auth.model.request.CreateUserRequest;
+import com.devkobe24.kobe_bulletin_board.domain.auth.model.response.CreateManagerResponse;
 import com.devkobe24.kobe_bulletin_board.domain.auth.model.response.CreateUserResponse;
+import com.devkobe24.kobe_bulletin_board.domain.repository.ManagerRepository;
 import com.devkobe24.kobe_bulletin_board.domain.repository.UserRepository;
+import com.devkobe24.kobe_bulletin_board.domain.repository.entity.Manager;
+import com.devkobe24.kobe_bulletin_board.domain.repository.entity.ManagerCredentials;
 import com.devkobe24.kobe_bulletin_board.domain.repository.entity.User;
 import com.devkobe24.kobe_bulletin_board.domain.repository.entity.UserCredentials;
 import com.devkobe24.kobe_bulletin_board.security.Hasher;
+import com.devkobe24.kobe_bulletin_board.security.ManagerNumberGenerator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
