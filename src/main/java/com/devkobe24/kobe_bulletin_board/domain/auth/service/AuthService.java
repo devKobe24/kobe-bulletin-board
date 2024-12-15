@@ -4,11 +4,14 @@ import com.devkobe24.kobe_bulletin_board.common.exception.CustomException;
 import com.devkobe24.kobe_bulletin_board.common.exception.ResponseCode;
 import com.devkobe24.kobe_bulletin_board.common.role.UserRole;
 import com.devkobe24.kobe_bulletin_board.domain.auth.model.request.CreateUserRequest;
+import com.devkobe24.kobe_bulletin_board.domain.auth.model.request.LoginRequest;
 import com.devkobe24.kobe_bulletin_board.domain.auth.model.response.CreateUserResponse;
+import com.devkobe24.kobe_bulletin_board.domain.auth.model.response.LoginResponse;
 import com.devkobe24.kobe_bulletin_board.domain.repository.UserRepository;
 import com.devkobe24.kobe_bulletin_board.domain.repository.entity.User;
 import com.devkobe24.kobe_bulletin_board.domain.repository.entity.UserCredentials;
 import com.devkobe24.kobe_bulletin_board.security.Hasher;
+import com.devkobe24.kobe_bulletin_board.security.JWTProvider;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -80,5 +83,29 @@ public class AuthService {
 			log.error("USER_SAVED_FAILED: User could not be saved");
 			throw new CustomException(ResponseCode.USER_SAVED_FAILED);
 		}
+	}
+
+	public LoginResponse login(LoginRequest request) {
+		Optional<User> user = userRepository.findByEmail(request.email());
+
+		if (!user.isPresent()) {
+			log.error("USER_NOT_EXISTS: {}", request.email());
+			throw new CustomException(ResponseCode.USER_NOT_EXISTS);
+		}
+
+		user.map(u -> {
+			String hashedValue = hasher.getHashingValue(request.password());
+
+			if (!u.getUserCredentials().getHashedPassword().equals(hashedValue)) {
+				throw new CustomException(ResponseCode.MISS_MATCH_PASSWORD);
+			}
+
+			return hashedValue;
+		}).orElseThrow(() -> {
+			throw new CustomException(ResponseCode.USER_NOT_EXISTS);
+		});
+
+		String token = JWTProvider.createRefreshToken(request.email());
+		return new LoginResponse(ResponseCode.SUCCESS, token);
 	}
 }
