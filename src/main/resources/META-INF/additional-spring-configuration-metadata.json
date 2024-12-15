@@ -1,0 +1,23 @@
+{
+  "properties": [
+    {
+      "name": "token.token-time",
+      "type": "java.lang.String",
+      "description": "Description for token.token-time."
+    },
+    {
+      "name": "token.secret-key",
+      "type": "java.lang.String",
+      "description": "Description for token.secret-key."
+    },
+    {
+      "name": "token.refresh-secret-key",
+      "type": "java.lang.String",
+      "description": "Description for token.refresh-secret-key."
+    },
+    {
+      "name": "token.refresh-token-time",
+      "type": "java.lang.String",
+      "description": "Description for token.refresh-token-time."
+    }
+  ] }
