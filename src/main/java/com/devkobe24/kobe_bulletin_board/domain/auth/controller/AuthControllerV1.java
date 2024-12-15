@@ -1,7 +1,9 @@
 package com.devkobe24.kobe_bulletin_board.domain.auth.controller;
 
 import com.devkobe24.kobe_bulletin_board.domain.auth.model.request.CreateUserRequest;
+import com.devkobe24.kobe_bulletin_board.domain.auth.model.request.LoginRequest;
 import com.devkobe24.kobe_bulletin_board.domain.auth.model.response.CreateUserResponse;
+import com.devkobe24.kobe_bulletin_board.domain.auth.model.response.LoginResponse;
 import com.devkobe24.kobe_bulletin_board.domain.auth.service.AuthService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -29,5 +31,16 @@ public class AuthControllerV1 {
 		@RequestBody @Valid CreateUserRequest request
 		) {
 		return authService.createUser(request);
+	}
+
+	@Operation(
+		summary = "로그인 처리",
+		description = "로그인을 진행합니다."
+	)
+	@PostMapping("/login")
+	public LoginResponse login(
+		@RequestBody @Valid LoginRequest request
+	) {
+		return authService.login(request);
 	}
 }
