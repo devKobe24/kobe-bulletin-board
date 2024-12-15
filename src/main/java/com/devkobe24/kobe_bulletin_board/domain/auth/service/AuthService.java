@@ -2,18 +2,13 @@ package com.devkobe24.kobe_bulletin_board.domain.auth.service;
 
 import com.devkobe24.kobe_bulletin_board.common.exception.CustomException;
 import com.devkobe24.kobe_bulletin_board.common.exception.ResponseCode;
-import com.devkobe24.kobe_bulletin_board.domain.auth.model.request.CreateManagerRequest;
+import com.devkobe24.kobe_bulletin_board.common.role.UserRole;
 import com.devkobe24.kobe_bulletin_board.domain.auth.model.request.CreateUserRequest;
-import com.devkobe24.kobe_bulletin_board.domain.auth.model.response.CreateManagerResponse;
 import com.devkobe24.kobe_bulletin_board.domain.auth.model.response.CreateUserResponse;
-import com.devkobe24.kobe_bulletin_board.domain.repository.ManagerRepository;
 import com.devkobe24.kobe_bulletin_board.domain.repository.UserRepository;
-import com.devkobe24.kobe_bulletin_board.domain.repository.entity.Manager;
-import com.devkobe24.kobe_bulletin_board.domain.repository.entity.ManagerCredentials;
 import com.devkobe24.kobe_bulletin_board.domain.repository.entity.User;
 import com.devkobe24.kobe_bulletin_board.domain.repository.entity.UserCredentials;
 import com.devkobe24.kobe_bulletin_board.security.Hasher;
-import com.devkobe24.kobe_bulletin_board.security.ManagerNumberGenerator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -74,6 +69,7 @@ public class AuthService {
 		UserCredentials credentials = UserCredentials.builder()
 			.user(user)
 			.hashedPassword(hashedValue)
+			.role(UserRole.USER) // 가입시 모든 유저/관리자는 USER로 role을 부여 받고 관리자는 추후에 DB에서 따로 role을 ADMIN으로 수정하여 바뀌는 시스템.
 			.build();
 
 		return credentials;
