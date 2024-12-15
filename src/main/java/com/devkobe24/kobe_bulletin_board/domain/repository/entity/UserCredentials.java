@@ -1,5 +1,6 @@
 package com.devkobe24.kobe_bulletin_board.domain.repository.entity;
 
+import com.devkobe24.kobe_bulletin_board.common.role.UserRole;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -18,4 +19,8 @@ public class UserCredentials {
 
 	@Column(nullable = false, name = "hashed_password", length = 60)
 	private String hashedPassword;
+
+	@Enumerated(EnumType.STRING) // Enum을 문자열로 저장
+	@Column(nullable = false, length = 50)
+	private UserRole role; // Enum 사용.
 }
