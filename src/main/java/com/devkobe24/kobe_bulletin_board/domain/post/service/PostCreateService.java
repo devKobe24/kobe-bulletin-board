@@ -37,7 +37,7 @@ public class PostCreateService {
 
 			Post newPost = this.newPost(request.title(), request.content(), request.password(), writer);
 
-			Post savedPost = postRepository.save(newPost);
+			Post savedPost = postCreateRepository.save(newPost);
 			validateSavedPost(savedPost);
 		} catch (DataIntegrityViolationException e) {
 			log.error("Data integrity violation: {}", e.getMessage());
