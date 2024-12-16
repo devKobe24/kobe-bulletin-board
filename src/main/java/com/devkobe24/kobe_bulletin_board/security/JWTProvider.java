@@ -104,8 +104,21 @@ public class JWTProvider {
 	}
 
 	public static String getUserFromToken(String token) {
-		DecodedJWT jwt = decodedJWT(token);
-		return jwt.getSubject();
+		try {
+			// 토큰 디코딩
+			DecodedJWT jwt = decodedJWT(token);
+
+			// subject에서 사용자 정보를 추출
+			String nickname = jwt.getSubject();
+
+			// 로그 출력
+			log.info("Extracted nickname : {}", nickname);
+
+			return nickname;
+		} catch (JWTVerificationException e) {
+			log.error("Invalid token provided: {}", e.getMessage());
+			throw new IllegalArgumentException("Invalid token", e);
+		}
 	}
 
 
