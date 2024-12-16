@@ -31,15 +31,12 @@ public class AuthService {
 
 	@Transactional(transactionManager = "createUserTransactionManager")
 	public CreateUserResponse createUser(CreateUserRequest request) {
-		Optional<User> user = userRepository.findByUserName(request.userName());
-
-		if (user.isPresent()) {
-			log.error("USER_ALREADY_EXISTS: {}", request.userName());
-			throw new CustomException(ResponseCode.USER_ALREADY_EXISTS);
+		if (userRepository.existsByNickName(request.nickName())) {
+			throw new CustomException(ResponseCode.NICK_NAME_ALREADY_EXISTS);
 		}
 
 		try {
-			User newUser = this.newUser(request.userName(), request.email());
+			User newUser = this.newUser(request.userName(), request.email(), request.nickName());
 			UserCredentials newCredentials = this.newUserCredentials(request.password(), newUser);
 			newUser.setCredentials(newCredentials);
 
@@ -56,10 +53,11 @@ public class AuthService {
 		return new CreateUserResponse(ResponseCode.SUCCESS);
 	}
 
-	private User newUser(String name, String email) {
+	private User newUser(String name, String email, String nickName) {
 		User newUser = User.builder()
 			.userName(name)
 			.email(email)
+			.nickName(nickName)
 			.createdAt(new Timestamp(System.currentTimeMillis()))
 			.build();
 
@@ -93,19 +91,19 @@ public class AuthService {
 			throw new CustomException(ResponseCode.USER_NOT_EXISTS);
 		}
 
-		user.map(u -> {
+		User loggedInUser = user.map(u -> {
 			String hashedValue = hasher.getHashingValue(request.password());
 
 			if (!u.getUserCredentials().getHashedPassword().equals(hashedValue)) {
 				throw new CustomException(ResponseCode.MISS_MATCH_PASSWORD);
 			}
 
-			return hashedValue;
+			return u;
 		}).orElseThrow(() -> {
 			throw new CustomException(ResponseCode.USER_NOT_EXISTS);
 		});
 
-		String token = JWTProvider.createRefreshToken(request.email());
+		String token = JWTProvider.createRefreshToken(loggedInUser.getEmail(), loggedInUser.getNickName());
 		return new LoginResponse(ResponseCode.SUCCESS, token);
 	}
 }
