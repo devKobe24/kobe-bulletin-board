@@ -8,13 +8,13 @@ import lombok.Getter;
 @Getter
 public class LoginResponse {
 	@Schema(description = "응답 코드")
-	ResponseCode code;
+	private final Integer code;
 
 	@Schema(description = "JWT TOKEN")
-	String token;
+	private final String token;
 
-	public LoginResponse(ResponseCode code, String token) {
-		this.code = code;
+	public LoginResponse(ResponseCode responseCode, String token) {
+		this.code = responseCode.getCode();
 		this.token = token;
 	}
 }
