@@ -37,4 +37,7 @@ public class User {
 	public void setCredentials(UserCredentials credentials) {
 		this.userCredentials = credentials;
 	}
+
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<Post> posts = new ArrayList<>();
 }
