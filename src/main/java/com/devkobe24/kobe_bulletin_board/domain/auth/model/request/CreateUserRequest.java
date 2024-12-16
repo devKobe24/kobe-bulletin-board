@@ -20,5 +20,10 @@ public record CreateUserRequest(
 	@Schema(description = "유저 비밀번호")
 	@NotBlank
 	@NotNull
-	String password
+	String password,
+
+	@Schema(description = "유저 닉네임")
+	@NotBlank
+	@NotNull
+	String nickName
 ) {}
