@@ -31,4 +31,23 @@ public class PostControllerV1 {
 		String nickname = JWTProvider.getUserFromToken(token);
 		return postService.createPost(request, nickname);
 	}
+
+	@Operation(
+		summary = "게시물을 읽습니다.",
+		description = "작성된 게시물을 읽습니다."
+	)
+	@GetMapping("/{postId}")
+	public ReadPostResponse readPost(
+		@PathVariable Long postId
+	) {
+		// ReadPostRequest 객채 생성
+		ReadPostRequest request = new ReadPostRequest();
+		request.setId(postId);
+		// 위와 같이 코드를 유지한 이유
+		// Service 로직에서 readPost(Long postId)로 수정하면 더 쉽게 코드를 활용할 수 있지만
+		// 추후에 코드의 확장성을 대비하여 readPost(ReadPostRequest request)를 유지하게 되었습니다.
+
+		ReadPostResponse readPost = postReadService.readPost(request);
+		return readPost;
+	}
 }
