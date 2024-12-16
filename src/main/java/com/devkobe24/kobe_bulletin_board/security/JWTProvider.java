@@ -2,6 +2,7 @@ package com.devkobe24.kobe_bulletin_board.security;
 
 import java.util.Date;
 
+import com.auth0.jwt.exceptions.*;
 import com.devkobe24.kobe_bulletin_board.common.constants.Constants;
 import com.devkobe24.kobe_bulletin_board.common.exception.CustomException;
 import com.devkobe24.kobe_bulletin_board.common.exception.ResponseCode;
@@ -10,10 +11,6 @@ import org.springframework.stereotype.Component;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
-import com.auth0.jwt.exceptions.AlgorithmMismatchException;
-import com.auth0.jwt.exceptions.InvalidClaimException;
-import com.auth0.jwt.exceptions.SignatureVerificationException;
-import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 
 import org.springframework.util.StringUtils;
@@ -47,9 +44,9 @@ public class JWTProvider {
 		JWTProvider.tokenTimeForMinute = refreshTokenTime;
 	}
 
-	public static String createToken(String email) {
+	public static String createToken(String subject) {
 		return JWT.create()
-			.withSubject(email)
+			.withSubject(subject)
 			.withIssuedAt(new Date())
 			.withExpiresAt(new Date(System.currentTimeMillis() + tokenTimeForMinute * Constants.ON_MINUTE_TO_MILLIS))
 			.sign(Algorithm.HMAC256(secretKey));
