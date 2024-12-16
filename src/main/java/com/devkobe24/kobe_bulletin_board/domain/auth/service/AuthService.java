@@ -103,7 +103,7 @@ public class AuthService {
 			throw new CustomException(ResponseCode.USER_NOT_EXISTS);
 		});
 
-		String token = JWTProvider.createRefreshToken(loggedInUser.getEmail(), loggedInUser.getNickName());
+		String token = JWTProvider.createToken(loggedInUser.getNickName(), loggedInUser.getEmail());
 		return new LoginResponse(ResponseCode.SUCCESS, token);
 	}
 }
