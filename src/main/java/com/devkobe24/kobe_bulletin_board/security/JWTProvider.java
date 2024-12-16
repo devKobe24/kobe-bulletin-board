@@ -44,9 +44,10 @@ public class JWTProvider {
 		JWTProvider.tokenTimeForMinute = refreshTokenTime;
 	}
 
-	public static String createToken(String subject) {
+	public static String createToken(String nickname, String email) {
 		return JWT.create()
-			.withSubject(subject)
+			.withSubject(nickname)
+			.withClaim("email", email)
 			.withIssuedAt(new Date())
 			.withExpiresAt(new Date(System.currentTimeMillis() + tokenTimeForMinute * Constants.ON_MINUTE_TO_MILLIS))
 			.sign(Algorithm.HMAC256(secretKey));
