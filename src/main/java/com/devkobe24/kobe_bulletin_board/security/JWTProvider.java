@@ -121,5 +121,8 @@ public class JWTProvider {
 		}
 	}
 
-
+	public static String getEmailFromToken(String token) {
+		DecodedJWT jwt = decodedJWT(token);
+		return jwt.getClaim("email").asString();
+	}
 }
