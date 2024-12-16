@@ -36,4 +36,12 @@ public class Post {
 
 	@Column(nullable = false, length = 60)
 	private String password;
+
+	// viewCount를 증가시키는 메서드
+	public void incrementViewCount() {
+		if (viewCount == null) {
+			viewCount = 0;
+		}
+		viewCount++;
+	}
 }
