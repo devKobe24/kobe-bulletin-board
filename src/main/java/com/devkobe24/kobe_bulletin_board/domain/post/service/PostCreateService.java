@@ -22,7 +22,7 @@ import java.sql.Timestamp;
 @RequiredArgsConstructor
 public class PostCreateService {
 
-	private final PostRepository postRepository;
+	private final PostCreateRepository postCreateRepository;
 	private final Hasher hasher;
 	private final UserRepository userRepository;
 
