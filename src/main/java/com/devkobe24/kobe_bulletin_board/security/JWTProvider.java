@@ -52,9 +52,10 @@ public class JWTProvider {
 			.sign(Algorithm.HMAC256(secretKey));
 	}
 
-	public static String createRefreshToken(String email) {
+	public static String createRefreshToken(String email, String nickname) {
 		return JWT.create()
-			.withSubject(email)
+			.withSubject(nickname)
+			.withClaim("email", email)
 			.withIssuedAt(new Date())
 			.withExpiresAt(new Date(System.currentTimeMillis() + tokenTimeForMinute * Constants.ON_MINUTE_TO_MILLIS))
 			.sign(Algorithm.HMAC256(refreshSecretKey));
