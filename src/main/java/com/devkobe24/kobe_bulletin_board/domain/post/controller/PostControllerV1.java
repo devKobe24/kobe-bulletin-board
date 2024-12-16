@@ -33,7 +33,7 @@ public class PostControllerV1 {
 		) {
 		String token = JWTProvider.extractToken(authorizationHeader);
 		String nickname = JWTProvider.getUserFromToken(token);
-		return postService.createPost(request, nickname);
+		return postCreateService.createPost(request, nickname);
 	}
 
 	@Operation(
