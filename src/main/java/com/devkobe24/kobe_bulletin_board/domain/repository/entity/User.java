@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Builder
@@ -25,6 +27,9 @@ public class User {
 
 	@Column(name = "created_at")
 	private Timestamp createdAt;
+
+	@Column(name = "nick_name")
+	private String nickName;
 
 	@OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
 	private UserCredentials userCredentials;
