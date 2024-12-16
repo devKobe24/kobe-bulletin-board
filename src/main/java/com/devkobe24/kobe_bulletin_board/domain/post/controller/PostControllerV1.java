@@ -16,7 +16,8 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class PostControllerV1 {
 
-	private final PostService postService;
+	private final PostCreateService postCreateService;
+	private final PostReadService postReadService;
 
 	@Operation(
 		summary = "새로운 게시물을 생성합니다.",
