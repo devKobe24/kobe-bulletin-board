@@ -20,7 +20,7 @@ import java.sql.Timestamp;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class PostService {
+public class PostCreateService {
 
 	private final PostRepository postRepository;
 	private final Hasher hasher;
