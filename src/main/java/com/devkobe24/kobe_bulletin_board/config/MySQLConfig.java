@@ -65,4 +65,10 @@ public class MySQLConfig {
 		DataSourceTransactionManager manager = new DataSourceTransactionManager(dataSource);
 		return manager;
 	}
+
+	@Bean(name = "updatePostTransactionManager")
+	public PlatformTransactionManager updatePostTransactionManager(DataSource dataSource) {
+		DataSourceTransactionManager manager = new DataSourceTransactionManager(dataSource);
+		return manager;
+	}
 }
