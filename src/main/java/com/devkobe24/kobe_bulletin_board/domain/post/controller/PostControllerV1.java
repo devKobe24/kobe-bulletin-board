@@ -55,4 +55,18 @@ public class PostControllerV1 {
 		ReadPostResponse readPost = postReadService.readPost(request);
 		return readPost;
 	}
+
+	@Operation(
+		summary = "게시물을 수정합니다.",
+		description = "생성했던 게시물의 컨텐츠들을 수정."
+	)
+	@PutMapping("/update-post")
+	public UpdatePostResponse updatePost(
+		@RequestBody @Valid UpdatePostRequest request,
+		@RequestHeader("Authorization") String authorizationHeader
+	) {
+		String token = JWTProvider.extractToken(authorizationHeader);
+		String nickname = JWTProvider.getNickNameFromToken(token);
+		return postUpdateServiceV1.updatePost(request, nickname);
+	}
 }
