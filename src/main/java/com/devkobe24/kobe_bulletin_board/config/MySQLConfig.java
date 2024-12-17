@@ -59,4 +59,10 @@ public class MySQLConfig {
 		DataSourceTransactionManager manager = new DataSourceTransactionManager(dataSource);
 		return manager;
 	}
+
+	@Bean(name = "logoutTransactionManager")
+	public PlatformTransactionManager logoutTransactionManager(DataSource dataSource) {
+		DataSourceTransactionManager manager = new DataSourceTransactionManager(dataSource);
+		return manager;
+	}
 }
