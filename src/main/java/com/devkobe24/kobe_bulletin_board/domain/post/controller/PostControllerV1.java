@@ -21,6 +21,7 @@ public class PostControllerV1 {
 
 	private final PostCreateService postCreateService;
 	private final PostReadService postReadService;
+	private final PostUpdateServiceV1 postUpdateServiceV1;
 
 	@Operation(
 		summary = "새로운 게시물을 생성합니다.",
