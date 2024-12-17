@@ -34,6 +34,10 @@ public class User {
 	@OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
 	private UserCredentials userCredentials;
 
+	@Setter
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+	private List<Token> token;
+
 	public void setCredentials(UserCredentials credentials) {
 		this.userCredentials = credentials;
 	}
