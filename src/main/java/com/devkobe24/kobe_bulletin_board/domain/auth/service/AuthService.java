@@ -114,24 +114,25 @@ public class AuthService {
 
 	@Transactional(transactionManager = "loginTransactionManager")
 	public LoginResponse login(LoginRequest request) {
-		Optional<User> user = userRepository.findByEmail(request.email());
+		// 이메일로 사용자 확인
+		User user = userRepository.findByEmail(request.email())
+			.orElseThrow(() -> new CustomException(ResponseCode.USER_NOT_EXISTS));
 
-		if (!user.isPresent()) {
-			log.error("USER_NOT_EXISTS: {}", request.email());
-			throw new CustomException(ResponseCode.USER_NOT_EXISTS);
+		// 중복 로그인 검사.
+		if (tokenRepository.existsByUserIdAndIsRevokedFalse(user.getId())) {
+			log.error("USER_ALREADY_LOGIN: {}", request.email());
+			throw new CustomException(ResponseCode.USER_ALREADY_LOGIN);
 		}
 
-		User loggedInUser = user.map(u -> {
-			String hashedValue = hasher.getHashingValue(request.password());
+		// 비밀번호 확인
+		String hashedValue = hasher.getHashingValue(request.password());
+		if (!user.getUserCredentials().getHashedPassword().equals(hashedValue)) {
+			throw new CustomException(ResponseCode.MISS_MATCH_PASSWORD);
+		}
 
-			if (!u.getUserCredentials().getHashedPassword().equals(hashedValue)) {
-				throw new CustomException(ResponseCode.MISS_MATCH_PASSWORD);
-			}
-
-			return u;
-		}).orElseThrow(() -> {
-			throw new CustomException(ResponseCode.USER_NOT_EXISTS);
-		});
+		// 새 토큰 생성 및 저장
+		String token = JWTProvider.createToken(user.getNickName(), user.getEmail());
+		saveToken(token, user);
 
 		String token = JWTProvider.createToken(loggedInUser.getNickName(), loggedInUser.getEmail());
 		return new LoginResponse(ResponseCode.SUCCESS, token);
