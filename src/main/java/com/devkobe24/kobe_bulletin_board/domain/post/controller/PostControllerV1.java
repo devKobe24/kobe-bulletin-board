@@ -2,10 +2,13 @@ package com.devkobe24.kobe_bulletin_board.domain.post.controller;
 
 import com.devkobe24.kobe_bulletin_board.domain.post.model.request.CreatePostRequest;
 import com.devkobe24.kobe_bulletin_board.domain.post.model.request.ReadPostRequest;
+import com.devkobe24.kobe_bulletin_board.domain.post.model.request.UpdatePostRequest;
 import com.devkobe24.kobe_bulletin_board.domain.post.model.response.CreatePostResponse;
 import com.devkobe24.kobe_bulletin_board.domain.post.model.response.ReadPostResponse;
+import com.devkobe24.kobe_bulletin_board.domain.post.model.response.UpdatePostResponse;
 import com.devkobe24.kobe_bulletin_board.domain.post.service.PostCreateService;
 import com.devkobe24.kobe_bulletin_board.domain.post.service.PostReadService;
+import com.devkobe24.kobe_bulletin_board.domain.post.service.PostUpdateServiceV1;
 import com.devkobe24.kobe_bulletin_board.security.JWTProvider;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
