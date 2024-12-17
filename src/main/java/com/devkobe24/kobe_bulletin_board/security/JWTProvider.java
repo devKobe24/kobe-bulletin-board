@@ -113,7 +113,7 @@ public class JWTProvider {
 		throw new IllegalArgumentException("Invalid Auth Header");
 	}
 
-	public static String getUserFromToken(String token) {
+	public static String getNickNameFromToken(String token) {
 		try {
 			// 토큰 디코딩
 			DecodedJWT jwt = decodedJWT(token);
