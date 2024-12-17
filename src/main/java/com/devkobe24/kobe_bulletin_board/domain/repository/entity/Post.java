@@ -24,7 +24,6 @@ public class Post {
 	@Column(nullable = false)
 	private String content;
 
-	@Setter
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "writer", referencedColumnName = "nick_name", nullable = false)
 	private User user;
