@@ -5,9 +5,13 @@ import com.devkobe24.kobe_bulletin_board.common.exception.ResponseCode;
 import com.devkobe24.kobe_bulletin_board.common.role.UserRole;
 import com.devkobe24.kobe_bulletin_board.domain.auth.model.request.CreateUserRequest;
 import com.devkobe24.kobe_bulletin_board.domain.auth.model.request.LoginRequest;
+import com.devkobe24.kobe_bulletin_board.domain.auth.model.request.LogoutRequest;
 import com.devkobe24.kobe_bulletin_board.domain.auth.model.response.CreateUserResponse;
 import com.devkobe24.kobe_bulletin_board.domain.auth.model.response.LoginResponse;
+import com.devkobe24.kobe_bulletin_board.domain.auth.model.response.LogoutResponse;
+import com.devkobe24.kobe_bulletin_board.domain.repository.TokenRepository;
 import com.devkobe24.kobe_bulletin_board.domain.repository.UserRepository;
+import com.devkobe24.kobe_bulletin_board.domain.repository.entity.Token;
 import com.devkobe24.kobe_bulletin_board.domain.repository.entity.User;
 import com.devkobe24.kobe_bulletin_board.domain.repository.entity.UserCredentials;
 import com.devkobe24.kobe_bulletin_board.security.Hasher;
@@ -19,7 +23,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
-import java.util.Optional;
 
 @Slf4j
 @Service
@@ -27,6 +30,7 @@ import java.util.Optional;
 public class AuthService {
 
 	private final UserRepository userRepository;
+	private final TokenRepository tokenRepository;
 	private final Hasher hasher;
 
 	@Transactional(transactionManager = "createUserTransactionManager")
@@ -134,7 +138,19 @@ public class AuthService {
 		String token = JWTProvider.createToken(user.getNickName(), user.getEmail());
 		saveToken(token, user);
 
-		String token = JWTProvider.createToken(loggedInUser.getNickName(), loggedInUser.getEmail());
 		return new LoginResponse(ResponseCode.SUCCESS, token);
+	}
+
+	@Transactional(transactionManager = "logoutTransactionManager")
+	public LogoutResponse logout(LogoutRequest request) {
+		log.debug("Request token: {}", request.token());
+
+		String extractedToken = JWTProvider.extractToken(request.token());
+		log.debug("Extracted token: {}", extractedToken);
+		log.debug("Token in database: {}", tokenRepository.findByToken(extractedToken));
+
+		revokeToken(extractedToken);
+
+		return new LogoutResponse(ResponseCode.SUCCESS);
 	}
 }
