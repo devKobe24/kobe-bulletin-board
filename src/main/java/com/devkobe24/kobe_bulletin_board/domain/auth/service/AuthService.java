@@ -83,6 +83,36 @@ public class AuthService {
 		}
 	}
 
+	// 토큰 저장
+	private void saveToken(String token, User user) {
+		// 기존 토큰 무효화
+		tokenRepository.existsByUserIdAndIsRevoked(user.getId());
+
+		// 새로운 토큰 저장
+		Token userToken = Token.builder()
+			.token(token)
+			.user(user)
+			.isRevoked(false)
+			.isExpired(false)
+			.build();
+
+		tokenRepository.save(userToken);
+	}
+
+	// 토큰 무효화
+	private void revokeToken(String token) {
+		log.debug("Token value to be revoked: {}", token);
+		log.debug("Valid token query: {}", tokenRepository.findByToken(token));
+		// 유효한 토큰 조회
+		Token userToken = tokenRepository.findValidToken(token)
+			.orElseThrow(() -> new CustomException(ResponseCode.TOKEN_IS_INVALID));
+
+		// 토큰을 무효화
+		userToken.setRevoked(true);
+		tokenRepository.save(userToken);
+	}
+
+	@Transactional(transactionManager = "loginTransactionManager")
 	public LoginResponse login(LoginRequest request) {
 		Optional<User> user = userRepository.findByEmail(request.email());
 
