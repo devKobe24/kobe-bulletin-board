@@ -96,12 +96,21 @@ public class JWTProvider {
 		return JWT.decode(token);
 	}
 
+	// 토큰 값 추출
 	public static String extractToken(String header) {
+		log.debug("Authorization header: {}", header);
+		// "Bearer "가 없는 경우 그대로 반환.
+		if (StringUtils.hasText(header) && !header.startsWith("Bearer ")) {
+			return header;
+		}
+
+		// "Bearer "가 포함된 경우 "Bearer "를 제거하고 반환.
 		if (StringUtils.hasText(header) && header.startsWith("Bearer ")) {
 			return header.substring(7);
-		}else {
-			throw new IllegalArgumentException("Invalid Auth Header");
 		}
+
+		// 예외 처리.
+		throw new IllegalArgumentException("Invalid Auth Header");
 	}
 
 	public static String getUserFromToken(String token) {
