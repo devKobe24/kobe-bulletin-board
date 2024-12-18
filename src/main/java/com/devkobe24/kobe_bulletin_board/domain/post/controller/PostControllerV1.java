@@ -1,12 +1,15 @@
 package com.devkobe24.kobe_bulletin_board.domain.post.controller;
 
 import com.devkobe24.kobe_bulletin_board.domain.post.model.request.CreatePostRequest;
+import com.devkobe24.kobe_bulletin_board.domain.post.model.request.DeletePostRequest;
 import com.devkobe24.kobe_bulletin_board.domain.post.model.request.ReadPostRequest;
 import com.devkobe24.kobe_bulletin_board.domain.post.model.request.UpdatePostRequest;
 import com.devkobe24.kobe_bulletin_board.domain.post.model.response.CreatePostResponse;
+import com.devkobe24.kobe_bulletin_board.domain.post.model.response.DeletePostResponse;
 import com.devkobe24.kobe_bulletin_board.domain.post.model.response.ReadPostResponse;
 import com.devkobe24.kobe_bulletin_board.domain.post.model.response.UpdatePostResponse;
 import com.devkobe24.kobe_bulletin_board.domain.post.service.PostCreateService;
+import com.devkobe24.kobe_bulletin_board.domain.post.service.PostDeleteService;
 import com.devkobe24.kobe_bulletin_board.domain.post.service.PostReadService;
 import com.devkobe24.kobe_bulletin_board.domain.post.service.PostUpdateServiceV1;
 import com.devkobe24.kobe_bulletin_board.security.JWTProvider;
@@ -25,6 +28,7 @@ public class PostControllerV1 {
 	private final PostCreateService postCreateService;
 	private final PostReadService postReadService;
 	private final PostUpdateServiceV1 postUpdateServiceV1;
+	private final PostDeleteService postDeleteService;
 
 	@Operation(
 		summary = "새로운 게시물을 생성합니다.",
@@ -71,5 +75,16 @@ public class PostControllerV1 {
 		String token = JWTProvider.extractToken(authorizationHeader);
 		String nickname = JWTProvider.getNickNameFromToken(token);
 		return postUpdateServiceV1.updatePost(request, nickname);
+	}
+
+	@Operation(
+		summary = "게시물을 삭제합니다.",
+		description = "생성했었던 게시물을 삭제합니다."
+	)
+	@DeleteMapping("/delete-post")
+	public DeletePostResponse deletePost(
+		@RequestBody @Valid DeletePostRequest request
+	) {
+		return postDeleteService.deletePost(request);
 	}
 }
