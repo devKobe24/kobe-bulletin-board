@@ -6,6 +6,8 @@ springdoc:
   api-docs:
     enabled: true
 spring:
+  config:
+    import: optional:file:.env[.properties]
   jpa:
     show-sql: true
     properties:
@@ -15,12 +17,12 @@ spring:
           use_second_level_cache: false
           use_query_cache: false
   datasource:
-    url: "jdbc:mysql://localhost:3306/board"
-    username: "root"
-    password: "SkyAchieve910424"
+    url: jdbc:mysql://${DB_HOST}:${DB_PORT}/board
+    username: ${USER_NAME}
+    password: ${PASSWORD}
     driver-class-name: "com.mysql.cj.jdbc.Driver"
 token:
-  refresh-secret-key: "REFRESH_SECRET"
-  secret-key: "SECRET"
+  refresh-secret-key: ${REFERESH_SECRET_KEY}
+  secret-key: ${SECRET_KEY}
   token-time: 300
   refresh-token-time: 300
