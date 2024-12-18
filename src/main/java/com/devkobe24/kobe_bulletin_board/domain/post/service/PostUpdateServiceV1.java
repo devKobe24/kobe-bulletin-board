@@ -82,7 +82,7 @@ public class PostUpdateServiceV1 {
 		// 사용자 조회
 		User writer = userRepository.findByNickName(nickName)
 			.orElseThrow(() -> {
-				log.error("User not found with nicknameL {}", nickName);
+				log.error("User not found with nickname {}", nickName);
 				return new CustomException(ResponseCode.USER_NOT_EXISTS);
 			});
 		return writer;
