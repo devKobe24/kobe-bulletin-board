@@ -2,6 +2,7 @@ package com.devkobe24.kobe_bulletin_board.domain.post.service;
 
 import com.devkobe24.kobe_bulletin_board.common.exception.CustomException;
 import com.devkobe24.kobe_bulletin_board.common.exception.ResponseCode;
+import com.devkobe24.kobe_bulletin_board.common.sevice.PostCommonService;
 import com.devkobe24.kobe_bulletin_board.domain.post.model.request.UpdatePostRequest;
 import com.devkobe24.kobe_bulletin_board.domain.post.model.response.UpdatePostResponse;
 import com.devkobe24.kobe_bulletin_board.domain.repository.PostRepository;
@@ -25,6 +26,7 @@ public class PostUpdateServiceV2 {
 	private final PostRepository postRepository;
 	private final Hasher hasher;
 	private final UserRepository userRepository;
+	private final PostCommonService postCommonService;
 
 	@Transactional(transactionManager = "updatePostTransactionManager")
 	public UpdatePostResponse updatePost(UpdatePostRequest request, String nickName) {
@@ -77,13 +79,7 @@ public class PostUpdateServiceV2 {
 	// 게시물 조회 메서드
 	private Post findPostById(UpdatePostRequest request) {
 		// 게시물 조회
-		Post existingPost = postRepository.findById(request.getId())
-			.orElseThrow(() -> {
-				log.error("Post not found with id {}", request.getId());
-				return new CustomException(ResponseCode.POST_NOT_FOUND);
-			});
-
-		return existingPost;
+		return postCommonService.findPostById(request.getId());
 	}
 
 	// 비밀번호 검증 메서드
