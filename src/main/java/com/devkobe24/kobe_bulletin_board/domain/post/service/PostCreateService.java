@@ -4,7 +4,7 @@ import com.devkobe24.kobe_bulletin_board.common.exception.CustomException;
 import com.devkobe24.kobe_bulletin_board.common.exception.ResponseCode;
 import com.devkobe24.kobe_bulletin_board.domain.post.model.request.CreatePostRequest;
 import com.devkobe24.kobe_bulletin_board.domain.post.model.response.CreatePostResponse;
-import com.devkobe24.kobe_bulletin_board.domain.repository.PostCreateRepository;
+import com.devkobe24.kobe_bulletin_board.domain.repository.PostRepository;
 import com.devkobe24.kobe_bulletin_board.domain.repository.UserRepository;
 import com.devkobe24.kobe_bulletin_board.domain.repository.entity.Post;
 import com.devkobe24.kobe_bulletin_board.domain.repository.entity.User;
@@ -22,7 +22,7 @@ import java.sql.Timestamp;
 @RequiredArgsConstructor
 public class PostCreateService {
 
-	private final PostCreateRepository postCreateRepository;
+	private final PostRepository postRepository;
 	private final Hasher hasher;
 	private final UserRepository userRepository;
 
@@ -37,7 +37,7 @@ public class PostCreateService {
 
 			Post newPost = this.newPost(request.title(), request.content(), request.password(), writer);
 
-			Post savedPost = postCreateRepository.save(newPost);
+			Post savedPost = postRepository.save(newPost);
 			validateSavedPost(savedPost);
 		} catch (DataIntegrityViolationException e) {
 			log.error("Data integrity violation: {}", e.getMessage());
