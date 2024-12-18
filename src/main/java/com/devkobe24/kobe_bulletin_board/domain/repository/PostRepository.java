@@ -11,7 +11,9 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface PostReadRepository extends JpaRepository<Post, Long> {
+public interface PostRepository extends JpaRepository<Post, Long> {
+	Optional<Post> findByTitle(String title);
+	Optional<Post> findById(Long id);
 	Optional<Post> findPostById(Long id);
 
 	@Lock(LockModeType.PESSIMISTIC_READ)
