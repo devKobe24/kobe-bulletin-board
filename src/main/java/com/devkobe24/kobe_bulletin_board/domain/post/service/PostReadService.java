@@ -4,7 +4,6 @@ import com.devkobe24.kobe_bulletin_board.common.exception.CustomException;
 import com.devkobe24.kobe_bulletin_board.common.exception.ResponseCode;
 import com.devkobe24.kobe_bulletin_board.domain.post.model.request.ReadPostRequest;
 import com.devkobe24.kobe_bulletin_board.domain.post.model.response.ReadPostResponse;
-import com.devkobe24.kobe_bulletin_board.domain.repository.PostReadRepository;
 import com.devkobe24.kobe_bulletin_board.domain.repository.PostRepository;
 import com.devkobe24.kobe_bulletin_board.domain.repository.entity.Post;
 import lombok.RequiredArgsConstructor;
