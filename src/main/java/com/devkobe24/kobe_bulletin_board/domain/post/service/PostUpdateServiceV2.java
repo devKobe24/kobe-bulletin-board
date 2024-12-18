@@ -4,7 +4,7 @@ import com.devkobe24.kobe_bulletin_board.common.exception.CustomException;
 import com.devkobe24.kobe_bulletin_board.common.exception.ResponseCode;
 import com.devkobe24.kobe_bulletin_board.domain.post.model.request.UpdatePostRequest;
 import com.devkobe24.kobe_bulletin_board.domain.post.model.response.UpdatePostResponse;
-import com.devkobe24.kobe_bulletin_board.domain.repository.PostUpdateRepository;
+import com.devkobe24.kobe_bulletin_board.domain.repository.PostRepository;
 import com.devkobe24.kobe_bulletin_board.domain.repository.UserRepository;
 import com.devkobe24.kobe_bulletin_board.domain.repository.entity.Post;
 import com.devkobe24.kobe_bulletin_board.domain.repository.entity.User;
@@ -22,7 +22,7 @@ import java.sql.Timestamp;
 @RequiredArgsConstructor
 public class PostUpdateServiceV2 {
 
-	private final PostUpdateRepository postUpdateRepository;
+	private final PostRepository postRepository;
 	private final Hasher hasher;
 	private final UserRepository userRepository;
 
@@ -51,7 +51,7 @@ public class PostUpdateServiceV2 {
 			existingPost.setCreatedAt(new Timestamp(System.currentTimeMillis()));
 
 			// 게시물 저장
-			postUpdateRepository.save(existingPost);
+			postRepository.save(existingPost);
 
 			return new UpdatePostResponse(ResponseCode.SUCCESS);
 		} catch (DataIntegrityViolationException e) {
@@ -77,7 +77,7 @@ public class PostUpdateServiceV2 {
 	// 게시물 조회 메서드
 	private Post findPostById(UpdatePostRequest request) {
 		// 게시물 조회
-		Post existingPost = postUpdateRepository.findById(request.getId())
+		Post existingPost = postRepository.findById(request.getId())
 			.orElseThrow(() -> {
 				log.error("Post not found with id {}", request.getId());
 				return new CustomException(ResponseCode.POST_NOT_FOUND);
