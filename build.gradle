@@ -24,24 +24,25 @@ repositories {
 }
 
 dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter-web:3.4.0'
+    implementation 'org.springframework.boot:spring-boot-starter-web:2.3.1.RELEASE'
 
     // lombok
-    compileOnly 'org.projectlombok:lombok:1.18.36'
-    annotationProcessor 'org.projectlombok:lombok:1.18.36'
+    compileOnly 'org.projectlombok:lombok:1.18.12'
+    annotationProcessor 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok-mapstruct-binding:0.2.0'
 
+
     // jpa
-    implementation 'org.springframework.boot:spring-boot-starter-jdbc:3.4.0'
+    implementation 'org.springframework.boot:spring-boot-starter-jdbc:2.3.1.RELEASE'
 
     // jwt
     implementation 'com.auth0:java-jwt:4.4.0'
 
     // Hashing
-    implementation 'org.springframework.security:spring-security-core:6.3.2'
+    implementation 'org.springframework.security:spring-security-core:5.3.3.RELEASE'
 
     // Swagger
-    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.7.0'
+    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0'
 
     // MySQL
     implementation 'com.mysql:mysql-connector-j:9.1.0'
