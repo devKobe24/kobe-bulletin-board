@@ -7,8 +7,16 @@ plugins {
 group = 'com.devkobe24'
 version = '0.0.1-SNAPSHOT'
 
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
+
 tasks.withType(JavaCompile).configureEach {
-    options.forkOptions.javaHome = System.getenv('JAVA_HOME')
+    javaCompiler = javaToolchains.compilerFor {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
 }
 
 repositories {
