@@ -45,6 +45,8 @@ public class User {
 		this.userCredentials = credentials;
 	}
 
-	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-	private List<Post> posts = new ArrayList<>();
+	@PrePersist
+	protected void onCreate() {
+		this.createdAt = new Timestamp(System.currentTimeMillis());
+	}
 }
