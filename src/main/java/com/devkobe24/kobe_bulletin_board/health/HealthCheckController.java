@@ -10,19 +10,6 @@ public class HealthCheckController {
 
 	@GetMapping("/health")
 	public ResponseEntity<String> healthCheck() {
-		// 애플리케이션 상태 확인 로직
-		boolean isHealthy = checkApplicationHealth();
-
-		if (isHealthy) {
-			return ResponseEntity.ok("Healthy");
-		} else {
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-				.body("Not healthy");
-		}
-	}
-
-
-	private boolean checkApplicationHealth() {
-		return true;
+		return ResponseEntity.ok("Health Check OK");
 	}
 }
