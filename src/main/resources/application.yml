@@ -3,8 +3,9 @@ server:
 springdoc:
   swagger-ui:
     operations-sorter: "method"
+    path: /v1/swagger-ui
   api-docs:
-    enabled: true
+    path: /v1/api-docs
 spring:
   config:
     import: optional:file:.env[.properties]
