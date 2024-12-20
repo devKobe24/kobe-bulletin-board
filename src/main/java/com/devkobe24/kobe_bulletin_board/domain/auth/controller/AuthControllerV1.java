@@ -1,9 +1,7 @@
 package com.devkobe24.kobe_bulletin_board.domain.auth.controller;
 
-import com.devkobe24.kobe_bulletin_board.domain.auth.model.request.CreateUserRequest;
 import com.devkobe24.kobe_bulletin_board.domain.auth.model.request.LoginRequest;
 import com.devkobe24.kobe_bulletin_board.domain.auth.model.request.LogoutRequest;
-import com.devkobe24.kobe_bulletin_board.domain.auth.model.response.CreateUserResponse;
 import com.devkobe24.kobe_bulletin_board.domain.auth.model.response.LoginResponse;
 import com.devkobe24.kobe_bulletin_board.domain.auth.model.response.LogoutResponse;
 import com.devkobe24.kobe_bulletin_board.domain.auth.service.AuthService;
@@ -23,17 +21,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthControllerV1 {
 
 	private final AuthService authService;
-
-	@Operation(
-		summary = "새로운 유저를 생성합니다.",
-		description = "새로운 유저 생성"
-	)
-	@PostMapping("/create-user")
-	public CreateUserResponse createUser(
-		@RequestBody @Valid CreateUserRequest request
-		) {
-		return authService.createUser(request);
-	}
 
 	@Operation(
 		summary = "로그인 처리",
