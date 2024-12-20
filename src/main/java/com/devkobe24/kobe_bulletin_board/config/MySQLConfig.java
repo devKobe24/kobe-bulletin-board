@@ -14,16 +14,16 @@ import javax.sql.DataSource;
 @EnableTransactionManagement
 public class MySQLConfig {
 
-	@Value("jdbc:mysql://localhost:3306/board")
+	@Value("${spring.datasource.url}")
 	private String url;
 
-	@Value("root")
+	@Value("${spring.datasource.username}")
 	private String username;
 
-	@Value("@@SkyAchieve910424")
+	@Value("${spring.datasource.password}")
 	private String password;
 
-	@Value("com.mysql.cj.jdbc.Driver")
+	@Value("${spring.datasource.driver-class-name}")
 	private String driverClassName;
 
 	@Bean
