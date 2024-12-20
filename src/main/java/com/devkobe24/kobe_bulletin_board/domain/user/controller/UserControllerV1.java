@@ -4,6 +4,7 @@ import com.devkobe24.kobe_bulletin_board.domain.user.model.request.CreateUserReq
 import com.devkobe24.kobe_bulletin_board.domain.user.model.request.ReadSpecificUserRequest;
 import com.devkobe24.kobe_bulletin_board.domain.user.model.response.CreateUserResponse;
 import com.devkobe24.kobe_bulletin_board.domain.user.model.response.ReadSpecificUserResponse;
+import com.devkobe24.kobe_bulletin_board.domain.user.model.response.ReadUserListResponse;
 import com.devkobe24.kobe_bulletin_board.domain.user.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -40,6 +41,16 @@ public class UserControllerV1 {
 
 		ReadSpecificUserResponse response = userService.readSpecificUser(request);
 
+		return response;
+	}
+
+	@Operation(
+		summary = "전체 유저를 조회합니다.",
+		description = "DB에 저장된 전체 유저를 조회합니다."
+	)
+	@GetMapping("/list")
+	public ReadUserListResponse readUserList() {
+		ReadUserListResponse response = userService.readUserList();
 		return response;
 	}
 }
