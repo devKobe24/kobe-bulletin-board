@@ -10,6 +10,7 @@ import com.devkobe24.kobe_bulletin_board.domain.user.model.request.CreateUserReq
 import com.devkobe24.kobe_bulletin_board.domain.user.model.request.ReadSpecificUserRequest;
 import com.devkobe24.kobe_bulletin_board.domain.user.model.response.CreateUserResponse;
 import com.devkobe24.kobe_bulletin_board.domain.user.model.response.ReadSpecificUserResponse;
+import com.devkobe24.kobe_bulletin_board.domain.user.model.response.ReadUserListResponse;
 import com.devkobe24.kobe_bulletin_board.security.Hasher;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 @Slf4j
 @Service
@@ -95,5 +97,17 @@ public class UserService {
 			log.error("Unexpected error while reading specific user: {}", e.getMessage());
 			throw new CustomException(ResponseCode.USER_READ_FAILED, e.getMessage());
 		}
+	}
+
+	@Transactional(transactionManager = "readUserListTransactionManager")
+	public ReadUserListResponse readUserList() {
+		List<User> users = userRepository.findAll();
+
+		if (users.isEmpty()) {
+			log.warn("No users found in the database");
+			throw new CustomException(ResponseCode.USER_LIST_EMPTY);
+		}
+
+		return new ReadUserListResponse(users);
 	}
 }
