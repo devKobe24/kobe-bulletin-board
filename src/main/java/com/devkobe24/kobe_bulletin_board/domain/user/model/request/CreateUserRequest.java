@@ -1,4 +1,4 @@
-package com.devkobe24.kobe_bulletin_board.domain.auth.model.request;
+package com.devkobe24.kobe_bulletin_board.domain.user.model.request;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
