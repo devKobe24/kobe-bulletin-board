@@ -8,9 +8,11 @@ import com.devkobe24.kobe_bulletin_board.domain.repository.entity.User;
 import com.devkobe24.kobe_bulletin_board.domain.repository.entity.UserCredentials;
 import com.devkobe24.kobe_bulletin_board.domain.user.model.request.CreateUserRequest;
 import com.devkobe24.kobe_bulletin_board.domain.user.model.request.ReadSpecificUserRequest;
+import com.devkobe24.kobe_bulletin_board.domain.user.model.request.UpdateUserRequest;
 import com.devkobe24.kobe_bulletin_board.domain.user.model.response.CreateUserResponse;
 import com.devkobe24.kobe_bulletin_board.domain.user.model.response.ReadSpecificUserResponse;
 import com.devkobe24.kobe_bulletin_board.domain.user.model.response.ReadUserListResponse;
+import com.devkobe24.kobe_bulletin_board.domain.user.model.response.UpdateUserResponse;
 import com.devkobe24.kobe_bulletin_board.security.Hasher;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -109,5 +111,36 @@ public class UserService {
 		}
 
 		return new ReadUserListResponse(users);
+	}
+
+	@Transactional(transactionManager = "updateUserRequestTransactionManger")
+	public UpdateUserResponse updateUser(UpdateUserRequest request, Long id) {
+		User user = userRepository.findById(id)
+			.orElseThrow(() -> {
+				log.error("User not found with id: {}", id);
+				return new CustomException(ResponseCode.USER_NOT_EXISTS);
+			});
+
+		// 이름 수정
+		if (request.getUserName() != null) {
+			user.setUserName(request.getUserName());
+			log.info("User name updated: {}", user.getUserName());
+		}
+
+		// 이메일 수정
+		if (request.getEmail() != null) {
+			user.setEmail(request.getEmail());
+			log.info("User email updated: {}", user.getEmail());
+		}
+
+		// 닉네임 수정
+		if (request.getNickName() != null) {
+			user.setNickName(request.getNickName());
+			log.info("Nick name updated: {}", user.getNickName());
+		}
+
+		userRepository.save(user);
+		log.info("User with id {} successfully updated", id);
+		return new UpdateUserResponse(user);
 	}
 }
