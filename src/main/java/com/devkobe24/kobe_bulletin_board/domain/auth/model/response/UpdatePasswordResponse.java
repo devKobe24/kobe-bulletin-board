@@ -6,14 +6,14 @@ import lombok.Getter;
 
 @Getter
 @Schema(description = "비밀번호 변경 Response")
-public class ModifyPasswordResponse {
+public class UpdatePasswordResponse {
 	@Schema(description = "응답코드")
 	private final Integer code;
 
 	@Schema(description = "응답 메시지")
 	private final String message;
 
-	public ModifyPasswordResponse(ResponseCode responseCode) {
+	public UpdatePasswordResponse(ResponseCode responseCode) {
 		this.code = responseCode.getCode();
 		this.message = responseCode.getMessage();
 	}
