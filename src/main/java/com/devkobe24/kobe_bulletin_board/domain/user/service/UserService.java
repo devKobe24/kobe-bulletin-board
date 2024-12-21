@@ -3,6 +3,7 @@ package com.devkobe24.kobe_bulletin_board.domain.user.service;
 import com.devkobe24.kobe_bulletin_board.common.exception.CustomException;
 import com.devkobe24.kobe_bulletin_board.common.exception.ResponseCode;
 import com.devkobe24.kobe_bulletin_board.common.role.UserRole;
+import com.devkobe24.kobe_bulletin_board.common.sevice.CommonService;
 import com.devkobe24.kobe_bulletin_board.domain.repository.UserRepository;
 import com.devkobe24.kobe_bulletin_board.domain.repository.entity.User;
 import com.devkobe24.kobe_bulletin_board.domain.repository.entity.UserCredentials;
@@ -29,6 +30,7 @@ import java.util.List;
 public class UserService {
 
 	private final UserRepository userRepository;
+	private final CommonService<User, Long> userCommonService;
 	private final Hasher hasher;
 
 	@Transactional(transactionManager = "createUserTransactionManager")
