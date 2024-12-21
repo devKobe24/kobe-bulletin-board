@@ -7,6 +7,7 @@ import com.devkobe24.kobe_bulletin_board.domain.auth.model.response.LoginRespons
 import com.devkobe24.kobe_bulletin_board.domain.auth.model.response.LogoutResponse;
 import com.devkobe24.kobe_bulletin_board.domain.auth.model.response.UpdatePasswordResponse;
 import com.devkobe24.kobe_bulletin_board.domain.auth.service.AuthService;
+import com.devkobe24.kobe_bulletin_board.domain.auth.service.PasswordUpdateService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
