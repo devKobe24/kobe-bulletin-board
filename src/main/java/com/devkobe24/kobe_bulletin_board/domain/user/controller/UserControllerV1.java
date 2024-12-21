@@ -53,4 +53,20 @@ public class UserControllerV1 {
 		ReadUserListResponse response = userService.readUserList();
 		return response;
 	}
+
+	@Operation(
+		summary = "유저 수정.",
+		description = "유저 이름 필드만 수정합니다."
+	)
+	@PatchMapping("/{id}/name")
+	public UpdateUserResponse updateUserName(
+		@PathVariable Long id,
+		@RequestParam String userName
+	) {
+		UpdateUserRequest request = new UpdateUserRequest();
+		request.setUserName(userName);
+
+		UpdateUserResponse updateUserName = userService.updateUser(request, id);
+		return updateUserName;
+	}
 }
