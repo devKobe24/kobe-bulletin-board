@@ -35,7 +35,7 @@ public class UserControllerV1 {
 		summary = "특정 유저를 조회합니다.",
 		description = "ID로 특정 유저를 조회합니다."
 	)
-	@GetMapping("{id}")
+	@GetMapping("/{id}")
 	public ReadSpecificUserResponse readSpecificUser(@PathVariable("id") Long id) {
 		ReadSpecificUserRequest request = new ReadSpecificUserRequest(id);
 
