@@ -84,6 +84,12 @@ public class MySQLConfig {
 		return manager;
 	}
 
+	@Bean(name = "updateEmailTransactionManager")
+	public PlatformTransactionManager updateEmailTransactionManager(DataSource dataSource) {
+		DataSourceTransactionManager manager = new DataSourceTransactionManager(dataSource);
+		return manager;
+	}
+
 	@Bean(name = "createPostTransactionManager")
 	public PlatformTransactionManager createPostTransactionManager(DataSource dataSource) {
 		DataSourceTransactionManager manager = new DataSourceTransactionManager(dataSource);
