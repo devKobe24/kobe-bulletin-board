@@ -143,4 +143,24 @@ public class UserService {
 		log.info("User with id {} successfully updated", id);
 		return new UpdateUserResponse(user);
 	}
+
+	@Transactional(transactionManager = "deleteUserTransactionManager")
+	public DeleteUserResponse deleteUser(DeleteUserRequest request) {
+		// 유저 조회
+		User deleteTargetUser = findUserById(request);
+
+		userRepository.delete(deleteTargetUser);
+
+		return new DeleteUserResponse(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage());
+	}
+
+	// 유저 조회 메서드
+	private User findUserById(DeleteUserRequest request) {
+		// 유저 조회
+		if (userCommonService.findById(request.id(), ResponseCode.USER_NOT_EXISTS) == null ) {
+			log.error("User not found with id: {}", request.id());
+		}
+
+		return userCommonService.findById(request.id(), ResponseCode.SUCCESS);
+	}
 }
