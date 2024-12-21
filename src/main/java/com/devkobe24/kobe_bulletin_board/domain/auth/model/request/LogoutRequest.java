@@ -6,7 +6,7 @@ import jakarta.validation.constraints.NotBlank;
 @Schema(description = "로그아웃 Request")
 public record LogoutRequest(
 
-	@Schema(description = "로그아웃할 사용자 인증 토큰", example = "Bearer <access_token>")
+	@Schema(description = "Revoke할 사용자 인증 토큰", example = "Bearer <access_token>")
 	@NotBlank
 	String token
 ) {}
