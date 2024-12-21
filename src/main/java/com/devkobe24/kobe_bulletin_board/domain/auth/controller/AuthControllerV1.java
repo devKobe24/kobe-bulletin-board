@@ -42,4 +42,15 @@ public class AuthControllerV1 {
 	) {
 		return authService.logout(request);
 	}
+
+	@Operation(
+		summary = "비밀번호 변경",
+		description = "사용자의 비밀번호를 변경합니다."
+	)
+	@PatchMapping("/modify/password")
+	public ModifyPasswordResponse modifyPassword(
+		@RequestBody @Valid ModifyPasswordRequest request
+	) {
+		return authService.modifyPassword(request);
+	}
 }
