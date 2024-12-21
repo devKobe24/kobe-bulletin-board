@@ -53,6 +53,6 @@ public class AuthControllerV1 {
 	public UpdatePasswordResponse updatePassword(
 		@RequestBody @Valid UpdatePasswordRequest request
 	) {
-		return authService.modifyPassword(request);
+		return passwordUpdateService.updatePassword(request);
 	}
 }
