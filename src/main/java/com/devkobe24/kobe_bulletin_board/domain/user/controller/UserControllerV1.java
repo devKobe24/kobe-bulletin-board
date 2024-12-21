@@ -71,4 +71,20 @@ public class UserControllerV1 {
 		UpdateUserResponse updateUserName = userService.updateUser(request, id);
 		return updateUserName;
 	}
+
+	@Operation(
+		summary = "유저 수정.",
+		description = "유저 이메일 필드만 수정합니다."
+	)
+	@PatchMapping("/{id}/email")
+	public UpdateUserResponse updateUserEmail(
+		@PathVariable Long id,
+		@RequestParam String email
+	) {
+		UpdateUserRequest request = new UpdateUserRequest();
+		request.setEmail(email);
+
+		UpdateUserResponse updateUserEmail = userService.updateUser(request, id);
+		return updateUserEmail;
+	}
 }
