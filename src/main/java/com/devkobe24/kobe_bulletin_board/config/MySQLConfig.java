@@ -78,8 +78,8 @@ public class MySQLConfig {
 		return manager;
 	}
 
-	@Bean(name = "modifyPasswordTransactionManager")
-	public PlatformTransactionManager modifyPasswordTransactionManager(DataSource dataSource) {
+	@Bean(name = "updatePasswordTransactionManager")
+	public PlatformTransactionManager updatePasswordTransactionManager(DataSource dataSource) {
 		DataSourceTransactionManager manager = new DataSourceTransactionManager(dataSource);
 		return manager;
 	}
