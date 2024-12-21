@@ -1,10 +1,13 @@
 package com.devkobe24.kobe_bulletin_board.domain.account.controller;
 
 import com.devkobe24.kobe_bulletin_board.domain.account.model.request.UpdateEmailRequest;
+import com.devkobe24.kobe_bulletin_board.domain.account.model.request.UpdateNickNameRequest;
 import com.devkobe24.kobe_bulletin_board.domain.account.model.request.UpdatePasswordRequest;
 import com.devkobe24.kobe_bulletin_board.domain.account.model.response.UpdateEmailResponse;
+import com.devkobe24.kobe_bulletin_board.domain.account.model.response.UpdateNickNameResponse;
 import com.devkobe24.kobe_bulletin_board.domain.account.model.response.UpdatePasswordResponse;
 import com.devkobe24.kobe_bulletin_board.domain.account.service.EmailUpdateService;
+import com.devkobe24.kobe_bulletin_board.domain.account.service.NickNameUpdateService;
 import com.devkobe24.kobe_bulletin_board.domain.account.service.PasswordUpdateService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -23,6 +26,7 @@ public class AccountControllerV1 {
 
 	private final PasswordUpdateService passwordUpdateService;
 	private final EmailUpdateService emailUpdateService;
+	private final NickNameUpdateService nickNameUpdateService;
 
 	@Operation(
 		summary = "비밀번호 수정 및 변경",
@@ -44,5 +48,16 @@ public class AccountControllerV1 {
 		@RequestBody @Valid UpdateEmailRequest request
 	) {
 		return emailUpdateService.updateEmail(request);
+	}
+
+	@Operation(
+		summary = "닉네임 수정 및 변경",
+		description = "사용자의 닉네임을 수정 및 변경합니다."
+	)
+	@PatchMapping("/update/nickname")
+	public UpdateNickNameResponse updateNickName(
+		@RequestBody @Valid UpdateNickNameRequest request
+	) {
+		return nickNameUpdateService.updateNickName(request);
 	}
 }
