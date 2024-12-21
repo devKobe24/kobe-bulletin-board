@@ -1,7 +1,7 @@
 package com.devkobe24.kobe_bulletin_board.domain.post.service;
 
 import com.devkobe24.kobe_bulletin_board.common.exception.ResponseCode;
-import com.devkobe24.kobe_bulletin_board.common.sevice.PostCommonService;
+import com.devkobe24.kobe_bulletin_board.common.sevice.CommonService;
 import com.devkobe24.kobe_bulletin_board.domain.post.model.request.DeletePostRequest;
 import com.devkobe24.kobe_bulletin_board.domain.post.model.response.DeletePostResponse;
 import com.devkobe24.kobe_bulletin_board.domain.repository.PostRepository;
@@ -17,7 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class PostDeleteService {
 
 	private final PostRepository postRepository;
-	private final PostCommonService postCommonService;
+	private final CommonService<Post, Long> commonService;
 
 	@Transactional(transactionManager = "deletePostTransactionManager")
 	public DeletePostResponse deletePost(DeletePostRequest request) {
@@ -38,6 +38,6 @@ public class PostDeleteService {
 	// 게시물 조회 메서드
 	private Post findPostById(DeletePostRequest request) {
 		// 게시물 조회
-		return postCommonService.findPostById(request.getId());
+		return commonService.findById(request.getId(), ResponseCode.SUCCESS);
 	}
 }
