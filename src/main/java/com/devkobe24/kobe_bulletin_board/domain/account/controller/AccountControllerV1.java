@@ -25,8 +25,8 @@ public class AccountControllerV1 {
 	private final EmailUpdateService emailUpdateService;
 
 	@Operation(
-		summary = "비밀번호 변경",
-		description = "사용자의 비밀번호를 변경합니다."
+		summary = "비밀번호 수정 및 변경",
+		description = "사용자의 비밀번호를 수정 및 변경합니다."
 	)
 	@PatchMapping("/update/password")
 	public UpdatePasswordResponse updatePassword(
@@ -36,8 +36,8 @@ public class AccountControllerV1 {
 	}
 
 	@Operation(
-		summary = "이메일 변경",
-		description = "사용자의 이메일을 변경합니다."
+		summary = "이메일 수정 및 변경",
+		description = "사용자의 이메일을 수정 및 변경합니다."
 	)
 	@PatchMapping("/update/email")
 	public UpdateEmailResponse updateEmail(
