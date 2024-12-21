@@ -1,9 +1,9 @@
-package com.devkobe24.kobe_bulletin_board.domain.auth.service;
+package com.devkobe24.kobe_bulletin_board.domain.account.service;
 
 import com.devkobe24.kobe_bulletin_board.common.exception.CustomException;
 import com.devkobe24.kobe_bulletin_board.common.exception.ResponseCode;
-import com.devkobe24.kobe_bulletin_board.domain.auth.model.request.UpdatePasswordRequest;
-import com.devkobe24.kobe_bulletin_board.domain.auth.model.response.UpdatePasswordResponse;
+import com.devkobe24.kobe_bulletin_board.domain.account.model.request.UpdatePasswordRequest;
+import com.devkobe24.kobe_bulletin_board.domain.account.model.response.UpdatePasswordResponse;
 import com.devkobe24.kobe_bulletin_board.domain.repository.UserRepository;
 import com.devkobe24.kobe_bulletin_board.domain.repository.entity.User;
 import com.devkobe24.kobe_bulletin_board.security.Hasher;

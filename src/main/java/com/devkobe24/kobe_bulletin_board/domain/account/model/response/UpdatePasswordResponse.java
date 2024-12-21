@@ -1,4 +1,4 @@
-package com.devkobe24.kobe_bulletin_board.domain.auth.model.response;
+package com.devkobe24.kobe_bulletin_board.domain.account.model.response;
 
 import com.devkobe24.kobe_bulletin_board.common.exception.ResponseCode;
 import io.swagger.v3.oas.annotations.media.Schema;

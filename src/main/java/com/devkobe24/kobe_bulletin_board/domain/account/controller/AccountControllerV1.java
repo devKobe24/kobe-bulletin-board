@@ -1,8 +1,8 @@
-package com.devkobe24.kobe_bulletin_board.domain.auth.controller;
+package com.devkobe24.kobe_bulletin_board.domain.account.controller;
 
-import com.devkobe24.kobe_bulletin_board.domain.auth.model.request.UpdatePasswordRequest;
-import com.devkobe24.kobe_bulletin_board.domain.auth.model.response.UpdatePasswordResponse;
-import com.devkobe24.kobe_bulletin_board.domain.auth.service.PasswordUpdateService;
+import com.devkobe24.kobe_bulletin_board.domain.account.model.request.UpdatePasswordRequest;
+import com.devkobe24.kobe_bulletin_board.domain.account.model.response.UpdatePasswordResponse;
+import com.devkobe24.kobe_bulletin_board.domain.account.service.PasswordUpdateService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
