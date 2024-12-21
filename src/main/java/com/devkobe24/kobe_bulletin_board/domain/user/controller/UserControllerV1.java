@@ -87,4 +87,20 @@ public class UserControllerV1 {
 		UpdateUserResponse updateUserEmail = userService.updateUser(request, id);
 		return updateUserEmail;
 	}
+
+	@Operation(
+		summary = "유저 수정.",
+		description = "유저 닉네임 필드만 수정합니다."
+	)
+	@PatchMapping("/{id}/nickname")
+	public UpdateUserResponse updateUserNickName(
+		@PathVariable Long id,
+		@RequestParam String nickName
+	) {
+		UpdateUserRequest request = new UpdateUserRequest();
+		request.setNickName(nickName);
+
+		UpdateUserResponse updateUserNickName = userService.updateUser(request, id);
+		return updateUserNickName;
+	}
 }
