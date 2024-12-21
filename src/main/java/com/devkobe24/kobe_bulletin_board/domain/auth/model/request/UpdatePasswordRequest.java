@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Getter
 @Schema(description = "비밀번호 변경 Request")
-public class ModifyPasswordRequest {
+public class UpdatePasswordRequest {
 	@Schema(description = "유저 ID", example = "1")
 	private Long id;
 
