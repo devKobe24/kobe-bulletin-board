@@ -60,6 +60,12 @@ public class MySQLConfig {
 		return manager;
 	}
 
+	@Bean(name = "deleteUserTransactionManager")
+	public PlatformTransactionManager deleteUserTransactionManager(DataSource dataSource) {
+		DataSourceTransactionManager manager = new DataSourceTransactionManager(dataSource);
+		return manager;
+	}
+
 	@Bean(name = "loginTransactionManager")
 	public PlatformTransactionManager loginTransactionManager(DataSource dataSource) {
 		DataSourceTransactionManager manager = new DataSourceTransactionManager(dataSource);
