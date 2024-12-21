@@ -66,6 +66,26 @@ public class AuthService {
 		return new LogoutResponse(ResponseCode.SUCCESS);
 	}
 
+	@Transactional(transactionManager = "modifyPasswordTransactionManager")
+	public ModifyPasswordResponse modifyPassword(ModifyPasswordRequest request) {
+		User user = userRepository.findById(request.getId())
+			.orElseThrow(() -> new CustomException(ResponseCode.USER_NOT_EXISTS));
+
+		// 비밀번호 일치여부 확인
+		String hashedValue = hasher.getHashingValue(request.getPreviousPassword());
+		if (!user.getUserCredentials().getHashedPassword().equals(hashedValue)) {
+			throw new CustomException(ResponseCode.MISS_MATCH_PASSWORD);
+		}
+
+		String newHashedValue = hasher.getHashingValue(request.getNewPassword());
+
+		// 사용자 비밀번호 업데이트
+		user.getUserCredentials().setHashedPassword(newHashedValue);
+		userRepository.save(user); // 변경사항 저장
+
+		return new ModifyPasswordResponse(ResponseCode.SUCCESS);
+	}
+
 	// 토큰 저장
 	private void saveToken(String token, User user) {
 		// 기존 토큰 무효화
