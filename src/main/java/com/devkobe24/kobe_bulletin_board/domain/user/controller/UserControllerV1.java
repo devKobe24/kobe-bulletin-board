@@ -1,6 +1,7 @@
 package com.devkobe24.kobe_bulletin_board.domain.user.controller;
 
 import com.devkobe24.kobe_bulletin_board.domain.user.model.request.CreateUserRequest;
+import com.devkobe24.kobe_bulletin_board.domain.user.model.request.DeleteUserRequest;
 import com.devkobe24.kobe_bulletin_board.domain.user.model.request.ReadSpecificUserRequest;
 import com.devkobe24.kobe_bulletin_board.domain.user.model.request.UpdateUserRequest;
 import com.devkobe24.kobe_bulletin_board.domain.user.model.response.CreateUserResponse;
@@ -102,5 +103,18 @@ public class UserControllerV1 {
 
 		UpdateUserResponse updateUserNickName = userService.updateUser(request, id);
 		return updateUserNickName;
+	}
+
+	@Operation(
+		summary = "유저 삭제.",
+		description = "등록된 유저를 삭제합니다."
+	)
+	@DeleteMapping("/{id}")
+	public DeleteUserResponse deleteUser(
+		@PathVariable Long id
+	) {
+		DeleteUserRequest request = new DeleteUserRequest(id);
+		DeleteUserResponse deleteUser = userService.deleteUser(request);
+		return deleteUser;
 	}
 }
