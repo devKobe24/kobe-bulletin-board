@@ -8,6 +8,7 @@ import com.devkobe24.kobe_bulletin_board.domain.repository.UserRepository;
 import com.devkobe24.kobe_bulletin_board.domain.repository.entity.User;
 import com.devkobe24.kobe_bulletin_board.domain.repository.entity.UserCredentials;
 import com.devkobe24.kobe_bulletin_board.domain.user.model.request.CreateUserRequest;
+import com.devkobe24.kobe_bulletin_board.domain.user.model.request.DeleteUserRequest;
 import com.devkobe24.kobe_bulletin_board.domain.user.model.request.ReadSpecificUserRequest;
 import com.devkobe24.kobe_bulletin_board.domain.user.model.request.UpdateUserRequest;
 import com.devkobe24.kobe_bulletin_board.domain.user.model.response.*;
