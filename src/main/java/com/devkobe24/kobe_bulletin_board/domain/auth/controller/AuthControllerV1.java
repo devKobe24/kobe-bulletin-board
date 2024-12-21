@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 public class AuthControllerV1 {
 
 	private final AuthService authService;
+	private final PasswordUpdateService passwordUpdateService;
 
 	@Operation(
 		summary = "로그인 처리",
