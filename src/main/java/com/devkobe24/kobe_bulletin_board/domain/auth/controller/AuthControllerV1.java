@@ -2,12 +2,9 @@ package com.devkobe24.kobe_bulletin_board.domain.auth.controller;
 
 import com.devkobe24.kobe_bulletin_board.domain.auth.model.request.LoginRequest;
 import com.devkobe24.kobe_bulletin_board.domain.auth.model.request.LogoutRequest;
-import com.devkobe24.kobe_bulletin_board.domain.auth.model.request.UpdatePasswordRequest;
 import com.devkobe24.kobe_bulletin_board.domain.auth.model.response.LoginResponse;
 import com.devkobe24.kobe_bulletin_board.domain.auth.model.response.LogoutResponse;
-import com.devkobe24.kobe_bulletin_board.domain.auth.model.response.UpdatePasswordResponse;
 import com.devkobe24.kobe_bulletin_board.domain.auth.service.AuthService;
-import com.devkobe24.kobe_bulletin_board.domain.auth.service.PasswordUpdateService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -21,7 +18,6 @@ import org.springframework.web.bind.annotation.*;
 public class AuthControllerV1 {
 
 	private final AuthService authService;
-	private final PasswordUpdateService passwordUpdateService;
 
 	@Operation(
 		summary = "로그인 처리",
@@ -43,16 +39,5 @@ public class AuthControllerV1 {
 		@RequestBody @Valid LogoutRequest request
 	) {
 		return authService.logout(request);
-	}
-
-	@Operation(
-		summary = "비밀번호 변경",
-		description = "사용자의 비밀번호를 변경합니다."
-	)
-	@PatchMapping("/update/password")
-	public UpdatePasswordResponse updatePassword(
-		@RequestBody @Valid UpdatePasswordRequest request
-	) {
-		return passwordUpdateService.updatePassword(request);
 	}
 }
