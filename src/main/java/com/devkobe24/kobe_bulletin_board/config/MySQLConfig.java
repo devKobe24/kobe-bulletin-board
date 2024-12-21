@@ -54,8 +54,8 @@ public class MySQLConfig {
 		return manager;
 	}
 
-	@Bean(name = "updateUserRequestTransactionManger")
-	public PlatformTransactionManager updateUserRequestTransactionManager(DataSource dataSource) {
+	@Bean(name = "updateUserTransactionManger")
+	public PlatformTransactionManager updateUserTransactionManager(DataSource dataSource) {
 		DataSourceTransactionManager manager = new DataSourceTransactionManager(dataSource);
 		return manager;
 	}
