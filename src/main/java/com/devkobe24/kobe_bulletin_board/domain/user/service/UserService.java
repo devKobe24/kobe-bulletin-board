@@ -113,7 +113,7 @@ public class UserService {
 		return new ReadUserListResponse(users);
 	}
 
-	@Transactional(transactionManager = "updateUserRequestTransactionManger")
+	@Transactional(transactionManager = "updateUserTransactionManger")
 	public UpdateUserResponse updateUser(UpdateUserRequest request, Long id) {
 		User user = userRepository.findById(id)
 			.orElseThrow(() -> {
