@@ -2,10 +2,10 @@ package com.devkobe24.kobe_bulletin_board.domain.auth.controller;
 
 import com.devkobe24.kobe_bulletin_board.domain.auth.model.request.LoginRequest;
 import com.devkobe24.kobe_bulletin_board.domain.auth.model.request.LogoutRequest;
-import com.devkobe24.kobe_bulletin_board.domain.auth.model.request.ModifyPasswordRequest;
+import com.devkobe24.kobe_bulletin_board.domain.auth.model.request.UpdatePasswordRequest;
 import com.devkobe24.kobe_bulletin_board.domain.auth.model.response.LoginResponse;
 import com.devkobe24.kobe_bulletin_board.domain.auth.model.response.LogoutResponse;
-import com.devkobe24.kobe_bulletin_board.domain.auth.model.response.ModifyPasswordResponse;
+import com.devkobe24.kobe_bulletin_board.domain.auth.model.response.UpdatePasswordResponse;
 import com.devkobe24.kobe_bulletin_board.domain.auth.service.AuthService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
