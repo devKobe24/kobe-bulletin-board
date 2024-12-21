@@ -4,10 +4,7 @@ import com.devkobe24.kobe_bulletin_board.domain.user.model.request.CreateUserReq
 import com.devkobe24.kobe_bulletin_board.domain.user.model.request.DeleteUserRequest;
 import com.devkobe24.kobe_bulletin_board.domain.user.model.request.ReadSpecificUserRequest;
 import com.devkobe24.kobe_bulletin_board.domain.user.model.request.UpdateUserRequest;
-import com.devkobe24.kobe_bulletin_board.domain.user.model.response.CreateUserResponse;
-import com.devkobe24.kobe_bulletin_board.domain.user.model.response.ReadSpecificUserResponse;
-import com.devkobe24.kobe_bulletin_board.domain.user.model.response.ReadUserListResponse;
-import com.devkobe24.kobe_bulletin_board.domain.user.model.response.UpdateUserResponse;
+import com.devkobe24.kobe_bulletin_board.domain.user.model.response.*;
 import com.devkobe24.kobe_bulletin_board.domain.user.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
