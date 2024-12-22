@@ -32,45 +32,48 @@ public class PostCreateService {
 
 	@Transactional(transactionManager = "createPostTransactionManager")
 	public CreatePostResponse createPost(CreatePostRequest request, String nickName) {
-		try {
-			User writer = userRepository.findByNickName(nickName)
-				.orElseThrow(() -> {
-					log.error("User not found with nickname: {}", nickName);
-					return new CustomException(ResponseCode.USER_NOT_EXISTS);
-				});
 
-			Post newPost = this.newPost(request.title(), request.content(), request.password(), writer);
+		User writer = userRepository.findByNickName(nickName)
+			.orElseThrow(() -> {
+				log.error("User not found with nickname: {}", nickName);
+				return new CustomException(ResponseCode.USER_NOT_EXISTS);
+			});
 
-			Post savedPost = postRepository.save(newPost);
-			validateSavedPost(savedPost);
-		} catch (DataIntegrityViolationException e) {
-			log.error("Data integrity violation: {}", e.getMessage());
-			throw new CustomException(ResponseCode.POST_SAVED_FAILED, e.getMessage());
-		} catch (Exception e) {
-			log.error("Unexpected error: {}", e.getMessage());
-			throw new CustomException(ResponseCode.POST_SAVED_FAILED, e.getMessage());
-		}
-		return new CreatePostResponse(ResponseCode.SUCCESS);
+		Post newPost = this.newPost(request.title(), request.content(), request.password(), writer);
+
+		Post savedPost = postRepository.save(newPost);
+		validateSavedPost(savedPost);
+
+		PostCredentials token = postCredentialRepository.findValidTokenByPostId(newPost.getId()).orElseThrow(() -> {
+			log.error("Invalid post token: {}", newPost.getId());
+			throw new CustomException(ResponseCode.TOKEN_IS_INVALID);
+		});
+
+		return new CreatePostResponse(ResponseCode.SUCCESS, token);
 	}
 
 	private Post newPost(String title, String content, String password, User writer) {
 		String hashedPassword = hasher.getHashingValue(password);
+		try {
+			Post newPost = Post.builder()
+				.title(title)
+				.content(content)
+				.password(hashedPassword)
+				.user(writer)
+				.createdAt(new Timestamp(System.currentTimeMillis()))
+				.viewCount(0)
+				.build();
 
-		Post newPost = Post.builder()
-			.title(title)
-			.content(content)
-			.password(hashedPassword)
-			.user(writer)
-			.createdAt(new Timestamp(System.currentTimeMillis()))
-			.viewCount(0)
-			.build();
+			createPostCredentials(newPost, hashedPassword);
 
-		savePostCredentials(newPost, hashedPassword);
-
-		return newPost;
+			return newPost;
+		} catch (DataIntegrityViolationException e) {
+			log.error("Data integrity violation: {}", e.getMessage());
+			throw new CustomException(ResponseCode.POST_NOT_EXISTS);
+		}
 	}
 
-	private void savePostCredentials(Post newPost, String hashedPassword) {
+	private PostCredentials createPostCredentials(Post newPost, String hashedPassword) {
 		String newPostNickName = newPost.getUser().getNickName();
 		String newPostPassword = newPost.getPassword();
 
@@ -85,6 +88,8 @@ public class PostCreateService {
 			.build();
 
 		postCredentialRepository.save(postCredentials);
+
+		return postCredentials;
 	}
 
 	private void validateSavedPost(Post savedPost) {
