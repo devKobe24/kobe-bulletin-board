@@ -2,6 +2,7 @@ package com.devkobe24.kobe_bulletin_board.domain.auth.service;
 
 import com.devkobe24.kobe_bulletin_board.common.exception.CustomException;
 import com.devkobe24.kobe_bulletin_board.common.exception.ResponseCode;
+import com.devkobe24.kobe_bulletin_board.common.role.UserRole;
 import com.devkobe24.kobe_bulletin_board.domain.auth.model.request.LoginRequest;
 import com.devkobe24.kobe_bulletin_board.domain.auth.model.request.LogoutRequest;
 import com.devkobe24.kobe_bulletin_board.domain.auth.model.response.LoginResponse;
@@ -45,7 +46,7 @@ public class AuthService {
 		}
 
 		// 새 토큰 생성 및 저장
-		String token = JWTProvider.createToken(user.getNickName(), user.getEmail());
+		String token = JWTProvider.createToken(user.getNickName(), user.getEmail(), UserRole.USER);
 		saveToken(token, user);
 
 		return new LoginResponse(ResponseCode.SUCCESS, token);
