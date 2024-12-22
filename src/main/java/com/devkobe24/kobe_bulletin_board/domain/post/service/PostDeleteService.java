@@ -82,7 +82,7 @@ public class PostDeleteService {
 
 	private PostCredentials validateToken(Long postId, DeletePostRequest request) {
 		// 토큰 검증
-		PostCredentials token = postCredentialRepository.findValidTokenByPostId(postId).orElseThrow(() -> {
+		PostCredentials token = postCredentialRepository.findValidByPostId(postId).orElseThrow(() -> {
 			log.error("Token not found with id {}", postId);
 			return new CustomException(ResponseCode.TOKEN_IS_INVALID);
 		});
