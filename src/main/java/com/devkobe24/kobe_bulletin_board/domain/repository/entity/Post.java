@@ -37,6 +37,9 @@ public class Post {
 	@Column(nullable = false, length = 60)
 	private String password;
 
+	@OneToOne(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
+	private PostCredentials postCredentials;
+
 	// viewCount를 증가시키는 메서드
 	public void incrementViewCount() {
 		if (viewCount == null) {
