@@ -15,5 +15,13 @@ public interface PostCredentialRepository extends JpaRepository<PostCredentials,
 		"WHERE p.post.id = :postId " +
 		"AND p.isRevoked = false " +
 		"AND p.isExpired = false")
-	Optional<PostCredentials> findValidTokenByPostId(@Param("postId") Long postId);
+	Optional<PostCredentials> findValidByPostId(@Param("postId") Long postId);
+
+	@Query("SELECT p.token " +
+		"FROM PostCredentials p " +
+		"WHERE p.post.id = :postId " +
+		"AND p.hashedPassword = :hashedPassword " +
+		"AND p.isRevoked = false " +
+		"AND p.isExpired = false ")
+	Optional<String> findValidToken(@Param("postId") Long postId, @Param("hashedPassword") String hashedPassword);
 }
