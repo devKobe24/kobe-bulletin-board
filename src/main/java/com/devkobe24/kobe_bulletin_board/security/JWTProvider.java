@@ -1,21 +1,19 @@
 package com.devkobe24.kobe_bulletin_board.security;
 
-import java.util.Date;
-
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.*;
+import com.auth0.jwt.interfaces.DecodedJWT;
 import com.devkobe24.kobe_bulletin_board.common.constants.Constants;
 import com.devkobe24.kobe_bulletin_board.common.exception.CustomException;
 import com.devkobe24.kobe_bulletin_board.common.exception.ResponseCode;
 import com.devkobe24.kobe_bulletin_board.common.role.UserRole;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.algorithms.Algorithm;
-import com.auth0.jwt.interfaces.DecodedJWT;
-
 import org.springframework.util.StringUtils;
-import lombok.extern.slf4j.Slf4j;
+
+import java.util.Date;
 
 @Slf4j
 @Component
