@@ -6,6 +6,7 @@ import com.auth0.jwt.exceptions.*;
 import com.devkobe24.kobe_bulletin_board.common.constants.Constants;
 import com.devkobe24.kobe_bulletin_board.common.exception.CustomException;
 import com.devkobe24.kobe_bulletin_board.common.exception.ResponseCode;
+import com.devkobe24.kobe_bulletin_board.common.role.UserRole;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -44,19 +45,21 @@ public class JWTProvider {
 		JWTProvider.tokenTimeForMinute = refreshTokenTime;
 	}
 
-	public static String createToken(String nickname, String email) {
+	public static String createToken(String nickname, String email, UserRole role) {
 		return JWT.create()
 			.withSubject(nickname)
 			.withClaim("email", email)
+			.withClaim("role", role.getValue())
 			.withIssuedAt(new Date())
 			.withExpiresAt(new Date(System.currentTimeMillis() + tokenTimeForMinute * Constants.ON_MINUTE_TO_MILLIS))
 			.sign(Algorithm.HMAC256(secretKey));
 	}
 
-	public static String createRefreshToken(String nickname, String email) {
+	public static String createRefreshToken(String nickname, String email, UserRole role) {
 		return JWT.create()
 			.withSubject(nickname)
 			.withClaim("email", email)
+			.withClaim("role", role.getValue())
 			.withIssuedAt(new Date())
 			.withExpiresAt(new Date(System.currentTimeMillis() + tokenTimeForMinute * Constants.ON_MINUTE_TO_MILLIS))
 			.sign(Algorithm.HMAC256(refreshSecretKey));
