@@ -60,6 +60,9 @@ public class PostCreateService {
 			.createdAt(new Timestamp(System.currentTimeMillis()))
 			.viewCount(0)
 			.build();
+
+		savePostCredentials(newPost, hashedPassword);
+
 		return newPost;
 	}
 
