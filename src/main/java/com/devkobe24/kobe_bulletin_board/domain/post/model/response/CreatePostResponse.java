@@ -1,7 +1,6 @@
 package com.devkobe24.kobe_bulletin_board.domain.post.model.response;
 
 import com.devkobe24.kobe_bulletin_board.common.exception.ResponseCode;
-import com.devkobe24.kobe_bulletin_board.domain.repository.entity.PostCredentials;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 
@@ -16,9 +15,9 @@ public class CreatePostResponse {
 	private final String message;
 
 	@Schema(description = "게시물 토큰")
-	private final PostCredentials token;
+	private final String token;
 
-	public CreatePostResponse(ResponseCode responseCode, PostCredentials token) {
+	public CreatePostResponse(ResponseCode responseCode, String token) {
 		this.code = responseCode.getCode();
 		this.message = responseCode.getMessage();
 		this.token = token;
