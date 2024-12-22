@@ -15,4 +15,14 @@ public class DeletePostRequest {
 	@NotBlank
 	@NotNull
 	Long id;
+
+	@Schema(description = "삭제할 게시물 비밀번호")
+	@NotBlank
+	@NotNull
+	String password;
+
+	@Schema(description = "삭제할 게시물 작성자의 토큰")
+	@NotBlank
+	@NotNull
+	String token;
 }
