@@ -25,6 +25,7 @@ public class PostCreateService {
 	private final PostRepository postRepository;
 	private final Hasher hasher;
 	private final UserRepository userRepository;
+	private final PostCredentialRepository postCredentialRepository;
 
 	@Transactional(transactionManager = "createPostTransactionManager")
 	public CreatePostResponse createPost(CreatePostRequest request, String nickName) {
