@@ -63,6 +63,23 @@ public class PostCreateService {
 		return newPost;
 	}
 
+	private void savePostCredentials(Post newPost, String hashedPassword) {
+		String newPostNickName = newPost.getUser().getNickName();
+		String newPostPassword = newPost.getPassword();
+
+		String newPostToken = JWTProvider.createPostToken(newPostNickName, newPostPassword);
+
+		PostCredentials postCredentials = PostCredentials.builder()
+			.post(newPost)
+			.hashedPassword(hashedPassword)
+			.token(newPostToken)
+			.isRevoked(false)
+			.isExpired(false)
+			.build();
+
+		postCredentialRepository.save(postCredentials);
+	}
+
 	private void validateSavedPost(Post savedPost) {
 		if (savedPost == null) {
 			log.error("POST_SAVED_FAILED: Post is null");
