@@ -147,4 +147,22 @@ public class JWTProvider {
 		DecodedJWT jwt = decodedJWT(token);
 		return jwt.getClaim("email").asString();
 	}
+
+	public static String getUserRoleFromToken(String token) {
+		try {
+			// 토큰 디코딩
+			DecodedJWT jwt = decodedJWT(token);
+
+			// claim에서 UserRole 정보 추출
+			String userRole = jwt.getClaim("role").asString();
+
+			// 로그 출력
+			log.info("Extracted userRole : {}", userRole);
+
+			return userRole;
+		} catch (JWTVerificationException e) {
+			log.error("Invalid token provided: {}", e.getMessage());
+			throw new IllegalArgumentException("Invalid token", e);
+		}
+	}
 }
