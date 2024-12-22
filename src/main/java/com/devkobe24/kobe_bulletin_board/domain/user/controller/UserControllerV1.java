@@ -55,7 +55,7 @@ public class UserControllerV1 {
 	}
 
 	@Operation(
-		summary = "유저 수정.",
+		summary = "유저 이름 수정.",
 		description = "유저 이름 필드만 수정합니다."
 	)
 	@PatchMapping("/{id}/name")
@@ -71,7 +71,7 @@ public class UserControllerV1 {
 	}
 
 	@Operation(
-		summary = "유저 수정.",
+		summary = "유저 이메일 수정.",
 		description = "유저 이메일 필드만 수정합니다."
 	)
 	@PatchMapping("/{id}/email")
@@ -87,7 +87,7 @@ public class UserControllerV1 {
 	}
 
 	@Operation(
-		summary = "유저 수정.",
+		summary = "유저 닉네임 수정.",
 		description = "유저 닉네임 필드만 수정합니다."
 	)
 	@PatchMapping("/{id}/nickname")
