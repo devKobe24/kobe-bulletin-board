@@ -53,10 +53,12 @@ public class JWTProvider {
 			.sign(Algorithm.HMAC256(secretKey));
 	}
 
-	public static String createToken(String nickname, String email, UserRole role) {
+	public static String createToken(User user, UserRole role) {
 		return JWT.create()
-			.withSubject(nickname)
-			.withClaim("email", email)
+			.withSubject(user.getEmail())
+			.withClaim("nickname", user.getNickName())
+			.withClaim("username", user.getUserName())
+			.withClaim("hashedPassword", user.getUserCredentials().getHashedPassword())
 			.withClaim("role", role.getValue())
 			.withIssuedAt(new Date())
 			.withExpiresAt(new Date(System.currentTimeMillis() + tokenTimeForMinute * Constants.ON_MINUTE_TO_MILLIS))
