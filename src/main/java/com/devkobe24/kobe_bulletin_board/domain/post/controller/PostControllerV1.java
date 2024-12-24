@@ -88,8 +88,13 @@ public class PostControllerV1 {
 	)
 	@DeleteMapping("/delete-post")
 	public DeletePostResponse deletePost(
-		@RequestBody @Valid DeletePostRequest request
+		@RequestBody @Valid DeletePostRequest request,
+		@RequestHeader("Authorization") String authorizationHeader
 	) {
-		return postDeleteService.deletePost(request);
+		String token = JWTProvider.extractToken(authorizationHeader);
+
+		String userRole = JWTProvider.getUserRoleFromToken(token);
+
+		return postDeleteService.deletePost(request, userRole);
 	}
 }
