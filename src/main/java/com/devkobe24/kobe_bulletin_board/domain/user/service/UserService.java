@@ -27,9 +27,11 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserService {
 
+	private final UserCredentialsRepository userCredentialsRepository;
 	private final UserRepository userRepository;
 	private final CommonService<User, Long> userCommonService;
 	private final Hasher hasher;
+	private final AuthService authService;
 
 	@Transactional(transactionManager = "createUserTransactionManager")
 	public CreateUserResponse createUser(CreateUserRequest request) {
