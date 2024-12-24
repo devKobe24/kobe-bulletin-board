@@ -65,6 +65,42 @@ public class AuthService {
 		return new LogoutResponse(ResponseCode.SUCCESS);
 	}
 
+	// 토큰 갱신 메서드
+	@Transactional(transactionManager = "refreshTokenTransactionManager")
+	public String refreshToken(Long userId) {
+		// 사용자 조회
+		User user = userRepository.findById(userId)
+			.orElseThrow(() -> new CustomException(ResponseCode.USER_NOT_EXISTS));
+
+		// 사용자 역할(Role) 조회
+		UserCredentials credentials = userCredentialsRepository.findById(userId)
+			.orElseThrow(() -> new CustomException(ResponseCode.USER_CREDENTIALS_NOT_EXISTS));
+
+		// 기존 토큰 무효화
+		tokenRepository.findByUserIdAndIsRevokedFalse(userId)
+			.ifPresent(token -> {
+				token.setRevoked(true);
+				tokenRepository.save(token);
+			});
+
+		// 새로운 토큰 생성
+		String newToken = JWTProvider.createToken(user, credentials.getRole());
+
+		// 새로운 토큰 저장.
+		Token token = Token.builder()
+			.user(user)
+			.token(newToken)
+			.isRevoked(false)
+			.isExpired(false)
+			.build();
+
+		tokenRepository.save(token);
+
+		log.info("Token refreshed for userId: {}", token);
+
+		return newToken;
+	}
+
 	// 토큰 저장
 	private void saveToken(String token, User user) {
 		// 기존 토큰 무효화
