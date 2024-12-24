@@ -167,4 +167,36 @@ public class UserService {
 
 		return userCommonService.findById(request.id(), ResponseCode.SUCCESS);
 	}
+
+	// 역할 변경 시 토큰 갱신 트리거
+	// 역할을 변경하는 메서드, 토큰을 갱신하도록 설정
+	@Transactional(transactionManager = "changeUserRoleTransactionManager")
+	public UpdateUserRoleResponse updateUserRole(UpdateUserRoleRequest request, Long userId ,String requestNewUserRole) {
+		User user = userRepository.findById(userId)
+			.orElseThrow(() -> {
+				log.error("User not found with userId: {}", userId);
+				throw new CustomException(ResponseCode.USER_NOT_EXISTS);
+			});
+
+		UserCredentials credentials = userCredentialsRepository.findById(userId)
+			.orElseThrow(() -> {
+			log.error("USER_CREDENTIALS_NOT_FOUND");
+			throw new CustomException(ResponseCode.USER_CREDENTIALS_NOT_EXISTS);
+		});
+
+		log.info("credential ==============>>>>>>>>>>>> {}", credentials);
+		if (UserRole.USER.getValue().equals(requestNewUserRole)) {
+			credentials.setRole(UserRole.USER);
+		} else {
+			credentials.setRole(UserRole.ADMIN);
+		}
+		userCredentialsRepository.save(credentials);
+
+		String newUserToken = authService.refreshToken(userId);
+		log.info("new user token: {}", newUserToken);
+		String newUserRole = credentials.getRole().getValue();
+		log.info("new user role: {}", newUserRole);
+
+		return new UpdateUserRoleResponse(newUserRole, newUserToken);
+	}
 }
