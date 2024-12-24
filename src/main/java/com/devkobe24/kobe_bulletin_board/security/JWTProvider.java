@@ -46,8 +46,8 @@ public class JWTProvider {
 
 	public static String createPostToken(User userName, UserRole userRole) {
 		return JWT.create()
-			.withSubject(password)
-			.withClaim("nickname", nickname)
+			.withSubject(userName.getUserName())
+			.withClaim("userRole", userRole.getValue())
 			.withIssuedAt(new Date())
 			.withExpiresAt(new Date(System.currentTimeMillis() + tokenTimeForMinute * Constants.ON_MINUTE_TO_MILLIS))
 			.sign(Algorithm.HMAC256(secretKey));
