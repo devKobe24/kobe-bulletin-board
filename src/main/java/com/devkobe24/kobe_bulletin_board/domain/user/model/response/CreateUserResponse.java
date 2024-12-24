@@ -14,8 +14,12 @@ public class CreateUserResponse{
 	@Schema(description = "응답 메시지")
 	private final String message;
 
-	public CreateUserResponse(ResponseCode responseCode) {
+	@Schema(description = "유저 역할")
+	private final String role;
+
+	public CreateUserResponse(ResponseCode responseCode, String role) {
 		this.code = responseCode.getCode();
 		this.message = responseCode.getMessage();
+		this.role = role;
 	}
 }
