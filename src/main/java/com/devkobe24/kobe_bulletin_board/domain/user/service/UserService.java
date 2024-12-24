@@ -54,7 +54,9 @@ public class UserService {
 			log.error("Unexpected error occurred: {}", e.getMessage());
 			throw new CustomException(ResponseCode.USER_SAVED_FAILED, e.getMessage());
 		}
-		return new CreateUserResponse(ResponseCode.SUCCESS);
+		// 유저 생성시 기본값은 USER.
+		String userRole = UserRole.USER.getValue();
+		return new CreateUserResponse(ResponseCode.SUCCESS, userRole);
 	}
 
 	private User newUser(String name, String email, String nickName) {
