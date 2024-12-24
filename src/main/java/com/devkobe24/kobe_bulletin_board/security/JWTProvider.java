@@ -124,19 +124,17 @@ public class JWTProvider {
 
 	public static String getNickNameFromToken(String token) {
 		try {
-			// 토큰 디코딩
+			log.debug("Token before decoding nickname: {}", token);
 			DecodedJWT jwt = decodedJWT(token);
-
-			// subject에서 사용자 정보를 추출
-			String nickname = jwt.getSubject();
-
-			// 로그 출력
-			log.info("Extracted nickname : {}", nickname);
-
+			String nickname = jwt.getClaim("nickname").asString();
+			log.debug("Decoded nickname: {}", nickname);
 			return nickname;
-		} catch (JWTVerificationException e) {
-			log.error("Invalid token provided: {}", e.getMessage());
-			throw new IllegalArgumentException("Invalid token", e);
+		} catch (JWTDecodeException e) {
+			log.error("Invalid nickname token format: {}", e.getMessage());
+			throw new IllegalArgumentException("Invalid nickname token format", e);
+		} catch (Exception e) {
+			log.error("Unexpected error occurred while decoding nickname: {}", e.getMessage());
+			throw new IllegalArgumentException("Unexpected error occurred while decoding nickname", e);
 		}
 	}
 
