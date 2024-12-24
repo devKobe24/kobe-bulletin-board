@@ -31,4 +31,5 @@ logging:
   file:
     name: /var/logs/kobe-bulletin-board/application.log # 로그파일경로
   level:
+    com.devkobe24.kobe_bulletin_board.security.JWTProvider: DEBUG
     root: INFO #로그레벨
