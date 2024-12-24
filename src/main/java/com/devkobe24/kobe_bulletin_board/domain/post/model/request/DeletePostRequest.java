@@ -23,7 +23,5 @@ public class DeletePostRequest {
 	String postToken;
 
 	@Schema(description = "삭제할 게시물 작성자의 토큰")
-	@NotBlank
-	@NotNull
-	String token;
+	String writerToken;
 }
