@@ -60,6 +60,7 @@ public class AuthService {
 		log.debug("Request token: {}", request.token());
 
 		String extractedToken = JWTProvider.extractToken(request.token());
+		log.debug("Extracted token after cleaning: {}", extractedToken);
 		log.debug("Extracted token: {}", extractedToken);
 		log.debug("Token in database: {}", tokenRepository.findByToken(extractedToken));
 
