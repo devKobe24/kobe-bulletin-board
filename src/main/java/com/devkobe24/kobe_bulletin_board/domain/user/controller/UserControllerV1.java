@@ -111,4 +111,19 @@ public class UserControllerV1 {
 		DeleteUserResponse deleteUser = userService.deleteUser(request);
 		return deleteUser;
 	}
+
+	@Operation(
+		summary = "사용자 역할 변경 및 토큰 갱신.",
+		description = "등록된 사용자의 역할(USER 또는 ADMIN)을 변경하고 그에 맞는 토큰을 갱신합니다."
+	)
+	@PatchMapping("/{userId}/role")
+	public UpdateUserRoleResponse updateUserRole(
+		@PathVariable Long userId,
+		@RequestParam String newRole
+	) {
+		UpdateUserRoleRequest request = new UpdateUserRoleRequest();
+		UpdateUserRoleResponse response = userService.updateUserRole(request, userId, newRole);
+		return response;
+	}
+
 }
