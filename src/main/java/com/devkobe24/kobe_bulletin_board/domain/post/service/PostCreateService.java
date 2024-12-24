@@ -76,15 +76,15 @@ public class PostCreateService {
 	}
 
 	private PostCredentials createPostCredentials(Post newPost, String hashedPassword) {
-		String newPostNickName = newPost.getUser().getNickName();
-		String newPostPassword = newPost.getPassword();
+		User newPostUser = newPost.getUser();
+		UserRole newPostUserRole = newPostUser.getUserCredentials().getRole();
 
-		String newPostToken = JWTProvider.createPostToken(newPostNickName, newPostPassword);
+		String newPostToken = JWTProvider.createPostToken(newPostUser, newPostUserRole);
 
 		PostCredentials postCredentials = PostCredentials.builder()
 			.post(newPost)
 			.hashedPassword(hashedPassword)
-			.token(newPostToken)
+			.postToken(newPostToken)
 			.isRevoked(false)
 			.isExpired(false)
 			.build();
