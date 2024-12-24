@@ -1,5 +1,6 @@
 package com.devkobe24.kobe_bulletin_board.domain.repository;
 
+import com.devkobe24.kobe_bulletin_board.common.role.UserRole;
 import com.devkobe24.kobe_bulletin_board.domain.repository.entity.Token;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -55,4 +56,20 @@ public interface TokenRepository extends JpaRepository<Token, Long> {
 		"FROM token t " +
 		"WHERE t.user.id = :userId AND t.isRevoked = false")
 	boolean existsByUserIdAndIsRevokedFalse(@Param("userId") Long userId);
+
+	// 토큰 조회 메서드
+	@Query("SELECT t " +
+		"FROM token t " +
+		"WHERE t.user.id = :userId " +
+		"AND t.isRevoked = false")
+	Optional<Token> findByUserIdAndIsRevokedFalse(@Param("userId") Long userId);
+
+	// 유저 아이디와 유저 역할(USER, ADMIN)을 이용하여 토큰 조회
+	@Query("SELECT t " +
+		"FROM token t " +
+		"WHERE t.user.id = :userId " +
+		"AND t.user.userCredentials.role = :userRole " +
+		"AND t.isRevoked = false " +
+		"AND t.isExpired = false")
+	Optional<Token> findTokenByUserIdAndUserRole(@Param("userId") Long userId, @Param("userRole") UserRole userRole);
 }
