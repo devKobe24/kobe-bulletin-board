@@ -103,11 +103,14 @@ public class PostDeleteService {
 	}
 
 	// 게시물 삭제 및 토큰 revoke, expired
-	private void deletePost(PostCredentials token, Post existingPost) {
-		// 토큰 revoke
-		token.setRevoked(true);
-		// 토큰 expired
-		token.setExpired(true);
+	private void deletePost(Optional<PostCredentials> token, Post existingPost) {
+
+		token.ifPresent(t -> {
+			// 토큰 revoke
+			t.setRevoked(true);
+			// 토큰 expired
+			t.setExpired(true);
+		});
 		// 게시물 삭제
 		postRepository.delete(existingPost);
 	}
