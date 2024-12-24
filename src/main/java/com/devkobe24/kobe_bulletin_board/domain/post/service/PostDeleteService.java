@@ -62,7 +62,7 @@ public class PostDeleteService {
 		// 토큰 검증, 추츨, 비교
 		PostCredentials token = validatePostToken(postId, request);
 		// 게시물 삭제
-		deletePost(token, existingPost);
+		deletePost(Optional.ofNullable(token), existingPost);
 	}
 
 	private Post existsPost(DeletePostRequest request) {
