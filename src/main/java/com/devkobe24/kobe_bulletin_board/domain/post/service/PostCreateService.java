@@ -46,7 +46,7 @@ public class PostCreateService {
 		validateSavedPost(savedPost);
 
 		String hashedPassword = hasher.getHashingValue(request.password());
-		String token = postCredentialRepository.findValidToken(newPost.getId(), hashedPassword).orElseThrow(() -> {
+		String token = postCredentialRepository.findValidPostToken(newPost.getId(), hashedPassword).orElseThrow(() -> {
 			log.error("Could not find valid token for post: {}", newPost.getId());
 			throw new CustomException(ResponseCode.TOKEN_IS_INVALID);
 		});
