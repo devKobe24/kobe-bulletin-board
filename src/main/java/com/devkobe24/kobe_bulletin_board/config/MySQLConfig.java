@@ -66,6 +66,12 @@ public class MySQLConfig {
 		return manager;
 	}
 
+	@Bean(name = "changeUserRoleTransactionManager")
+	public PlatformTransactionManager changeUserRoleTransactionManager(DataSource dataSource) {
+		DataSourceTransactionManager manager = new DataSourceTransactionManager(dataSource);
+		return manager;
+	}
+
 	@Bean(name = "loginTransactionManager")
 	public PlatformTransactionManager loginTransactionManager(DataSource dataSource) {
 		DataSourceTransactionManager manager = new DataSourceTransactionManager(dataSource);
@@ -74,6 +80,12 @@ public class MySQLConfig {
 
 	@Bean(name = "logoutTransactionManager")
 	public PlatformTransactionManager logoutTransactionManager(DataSource dataSource) {
+		DataSourceTransactionManager manager = new DataSourceTransactionManager(dataSource);
+		return manager;
+	}
+
+	@Bean(name = "refreshTokenTransactionManager")
+	public PlatformTransactionManager refreshTokenTransactionManager(DataSource dataSource) {
 		DataSourceTransactionManager manager = new DataSourceTransactionManager(dataSource);
 		return manager;
 	}
