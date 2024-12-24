@@ -34,9 +34,8 @@ public class User {
 	@OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
 	private UserCredentials userCredentials;
 
-	@Singular("token")
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-	private List<Token> token;
+	private List<Token> tokens;
 
 	@Singular("post")
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
