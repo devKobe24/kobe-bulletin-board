@@ -86,13 +86,14 @@ public class PostDeleteService {
 
 	private PostCredentials validatePostToken(Long postId, DeletePostRequest request) {
 		// 토큰 검증
-		PostCredentials token = postCredentialRepository.findValidByPostId(postId).orElseThrow(() -> {
+		String hashedPassword = hasher.getHashingValue(request.getPassword());
+		PostCredentials token = postCredentialRepository.findValidTokenByPostIdWithHashedPassword(postId, hashedPassword).orElseThrow(() -> {
 			log.error("Token not found with id {}", postId);
 			return new CustomException(ResponseCode.TOKEN_IS_INVALID);
 		});
 		// 토큰 추출
-		String extractedTokenFromRequest = JWTProvider.extractToken(request.getToken());
-		String extractedTokenFromDB = JWTProvider.extractToken(token.getToken());
+		String extractedTokenFromRequest = JWTProvider.extractToken(request.getPostToken());
+		String extractedTokenFromDB = JWTProvider.extractToken(token.getPostToken());
 		// 토큰 비교
 		if (!extractedTokenFromDB.equals(extractedTokenFromRequest)) {
 			log.error("Token and extracted token do not match");
