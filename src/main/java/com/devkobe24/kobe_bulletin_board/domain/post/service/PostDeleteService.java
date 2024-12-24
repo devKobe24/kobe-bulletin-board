@@ -60,7 +60,7 @@ public class PostDeleteService {
 		// 게시물 비밀번호 검증 후 추출한 비밀 번호
 		validatePostPassword(request, existingPost);
 		// 토큰 검증, 추츨, 비교
-		PostCredentials token = validateToken(postId, request);
+		PostCredentials token = validatePostToken(postId, request);
 		// 게시물 삭제
 		deletePost(token, existingPost);
 	}
