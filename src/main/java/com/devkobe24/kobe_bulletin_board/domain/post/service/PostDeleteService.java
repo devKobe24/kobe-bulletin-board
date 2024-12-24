@@ -38,9 +38,7 @@ public class PostDeleteService {
 		// 게시물 조회 및 게시 유무 여부 확인.
 		Post existingPost = existsPost(request);
 
-		String userRole = JWTProvider.getUserRoleFromToken(request.getToken());
-
-		if (userRole == UserRole.ADMIN.getValue()) {
+		if (userRole.equals(UserRole.ADMIN.getValue())) {
 			// 유저의 역할이 ADMIN 일 때 삭제 로직.
 			deletePostWhenAdmin(existingPost);
 		} else {
