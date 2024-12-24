@@ -25,7 +25,7 @@ public class PostCredentials {
 	private String hashedPassword;
 
 	@Column(name = "token", nullable = false)
-	private String token;
+	private String postToken;
 
 	@Column(name = "is_revoked", nullable = false)
 	private boolean isRevoked;
