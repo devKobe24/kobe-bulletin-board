@@ -17,7 +17,8 @@ public class UserCredentials {
 	private Long userId;
 
 	@OneToOne
-	@JoinColumn(name = "user_id", unique = true)
+	@MapsId
+	@JoinColumn(name = "user_id", referencedColumnName = "id")
 	private User user;
 
 	@Column(nullable = false, name = "hashed_password", length = 60)
