@@ -41,8 +41,11 @@ public class PostControllerV1 {
 		@RequestBody @Valid CreatePostRequest request,
 		@RequestHeader("Authorization") String authorizationHeader
 		) {
+		log.debug("Authorization Header: {}", authorizationHeader);
 		String token = JWTProvider.extractToken(authorizationHeader);
+		log.debug("Extracted Token: {}", token);
 		String nickname = JWTProvider.getNickNameFromToken(token);
+		log.debug("Nick name from Token: {}", nickname);
 		return postCreateService.createPost(request, nickname);
 	}
 
