@@ -67,8 +67,8 @@ public class JWTProvider {
 
 	public static String createRefreshToken(String nickname, String email, UserRole role) {
 		return JWT.create()
-			.withSubject(nickname)
-			.withClaim("email", email)
+			.withSubject(email)
+			.withClaim("nickname", nickname)
 			.withClaim("role", role.getValue())
 			.withIssuedAt(new Date())
 			.withExpiresAt(new Date(System.currentTimeMillis() + tokenTimeForMinute * Constants.ON_MINUTE_TO_MILLIS))
