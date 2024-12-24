@@ -21,6 +21,9 @@ public class DeletePostRequest {
 	@NotNull
 	String password;
 
+	@Schema(description = "삭제할 게시물 토큰")
+	String postToken;
+
 	@Schema(description = "삭제할 게시물 작성자의 토큰")
 	@NotBlank
 	@NotNull
