@@ -34,7 +34,7 @@ public class PostDeleteService {
 	private final UserRepository userRepository;
 
 	@Transactional(transactionManager = "deletePostTransactionManager")
-	public DeletePostResponse deletePost(DeletePostRequest request) {
+	public DeletePostResponse deletePost(DeletePostRequest request, String userRole) {
 		// 게시물 조회 및 게시 유무 여부 확인.
 		Post existingPost = existsPost(request);
 
