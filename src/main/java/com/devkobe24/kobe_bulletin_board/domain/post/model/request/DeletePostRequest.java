@@ -17,8 +17,6 @@ public class DeletePostRequest {
 	Long id;
 
 	@Schema(description = "삭제할 게시물 비밀번호")
-	@NotBlank
-	@NotNull
 	String password;
 
 	@Schema(description = "삭제할 게시물 토큰")
