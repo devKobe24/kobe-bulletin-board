@@ -1,9 +1,6 @@
 package com.devkobe24.kobe_bulletin_board.domain.user.controller;
 
-import com.devkobe24.kobe_bulletin_board.domain.user.model.request.CreateUserRequest;
-import com.devkobe24.kobe_bulletin_board.domain.user.model.request.DeleteUserRequest;
-import com.devkobe24.kobe_bulletin_board.domain.user.model.request.ReadSpecificUserRequest;
-import com.devkobe24.kobe_bulletin_board.domain.user.model.request.UpdateUserRequest;
+import com.devkobe24.kobe_bulletin_board.domain.user.model.request.*;
 import com.devkobe24.kobe_bulletin_board.domain.user.model.response.*;
 import com.devkobe24.kobe_bulletin_board.domain.user.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
