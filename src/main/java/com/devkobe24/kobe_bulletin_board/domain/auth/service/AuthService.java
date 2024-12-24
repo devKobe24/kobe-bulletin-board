@@ -49,7 +49,7 @@ public class AuthService {
 		}
 
 		// 새 토큰 생성 및 저장
-		String token = JWTProvider.createToken(user.getNickName(), user.getEmail(), UserRole.USER);
+		String token = JWTProvider.createToken(user, UserRole.USER);
 		saveToken(token, user);
 
 		return new LoginResponse(ResponseCode.SUCCESS, token);
