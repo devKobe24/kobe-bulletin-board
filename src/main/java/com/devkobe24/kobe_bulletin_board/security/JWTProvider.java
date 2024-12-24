@@ -8,6 +8,7 @@ import com.devkobe24.kobe_bulletin_board.common.constants.Constants;
 import com.devkobe24.kobe_bulletin_board.common.exception.CustomException;
 import com.devkobe24.kobe_bulletin_board.common.exception.ResponseCode;
 import com.devkobe24.kobe_bulletin_board.common.role.UserRole;
+import com.devkobe24.kobe_bulletin_board.domain.repository.entity.User;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
