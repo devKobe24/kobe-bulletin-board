@@ -2,6 +2,7 @@ package com.devkobe24.kobe_bulletin_board.domain.post.service;
 
 import com.devkobe24.kobe_bulletin_board.common.exception.CustomException;
 import com.devkobe24.kobe_bulletin_board.common.exception.ResponseCode;
+import com.devkobe24.kobe_bulletin_board.common.role.UserRole;
 import com.devkobe24.kobe_bulletin_board.domain.post.model.request.CreatePostRequest;
 import com.devkobe24.kobe_bulletin_board.domain.post.model.response.CreatePostResponse;
 import com.devkobe24.kobe_bulletin_board.domain.repository.PostCredentialRepository;
