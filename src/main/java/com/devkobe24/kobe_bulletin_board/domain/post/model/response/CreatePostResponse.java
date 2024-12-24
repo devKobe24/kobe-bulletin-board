@@ -15,7 +15,7 @@ public class CreatePostResponse {
 	private final String message;
 
 	@Schema(description = "게시물 토큰")
-	private final String token;
+	private final String postToken;
 
 	public CreatePostResponse(ResponseCode responseCode, String token) {
 		this.code = responseCode.getCode();
