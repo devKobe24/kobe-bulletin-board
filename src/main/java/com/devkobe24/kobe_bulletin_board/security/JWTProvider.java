@@ -144,20 +144,19 @@ public class JWTProvider {
 	}
 
 	public static String getUserRoleFromToken(String token) {
+
 		try {
-			// 토큰 디코딩
+			log.debug("Token before decoding: {}", token);
 			DecodedJWT jwt = decodedJWT(token);
-
-			// claim에서 UserRole 정보 추출
-			String userRole = jwt.getClaim("role").asString();
-
-			// 로그 출력
-			log.info("Extracted userRole : {}", userRole);
-
-			return userRole;
-		} catch (JWTVerificationException e) {
-			log.error("Invalid token provided: {}", e.getMessage());
-			throw new IllegalArgumentException("Invalid token", e);
+			String role = jwt.getClaim("role").asString();
+			log.debug("Decoded Role: {}", role);
+			return role;
+		} catch (JWTDecodeException e) {
+			log.error("Invalid token format: {}", e.getMessage());
+			throw new IllegalArgumentException("Invalid token format", e);
+		} catch (Exception e) {
+			log.error("Unexpected token error: {}", e.getMessage());
+			throw new IllegalArgumentException("Unexpected token error", e);
 		}
 	}
 }
