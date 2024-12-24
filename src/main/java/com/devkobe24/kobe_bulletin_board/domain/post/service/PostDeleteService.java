@@ -50,8 +50,8 @@ public class PostDeleteService {
 
 	// 유저의 역할이 ADMIN 일 때 삭제 로직.
 	private void deletePostWhenAdmin(Post existingPost) {
-		// 게시물 삭제 및 토큰 revoke, expired
-		postRepository.delete(existingPost);
+		log.debug("Admin is deleting the post with ID: {}", existingPost.getId());
+		deletePost(Optional.empty(), existingPost);
 	}
 
 	// 유저의 역할이 USER(일반 유저)일 때 삭제 로직.
