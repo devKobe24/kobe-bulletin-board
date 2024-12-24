@@ -14,6 +14,8 @@ import lombok.*;
 public class UserCredentials {
 
 	@Id
+	private Long userId;
+
 	@OneToOne
 	@JoinColumn(name = "user_id", unique = true)
 	private User user;
