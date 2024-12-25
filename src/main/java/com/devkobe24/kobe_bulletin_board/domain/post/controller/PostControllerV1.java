@@ -14,6 +14,7 @@ import com.devkobe24.kobe_bulletin_board.domain.post.service.PostReadService;
 import com.devkobe24.kobe_bulletin_board.domain.post.service.PostUpdateServiceV1;
 import com.devkobe24.kobe_bulletin_board.security.JWTProvider;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -25,6 +26,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/v1/post")
 @RequiredArgsConstructor
+@SecurityRequirement(name = "bearerAuth") // 보안 요구사항 적용
 public class PostControllerV1 {
 
 	private final PostCreateService postCreateService;
