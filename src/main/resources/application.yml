@@ -25,8 +25,8 @@ spring:
 token:
   refresh-secret-key: ${REFERESH_SECRET_KEY}
   secret-key: ${SECRET_KEY}
-  token-time: 300
-  refresh-token-time: 300
+  token-time: 900 # AccessToken: 900초(15분), 15분마다 갱신 필요, AccessToken은 짧은 유효기간
+  refresh-token-time: 604800 # RefreshToken: 604800초(7일), 7일 동안 유효, RefreshToken은 긴 유효기간
 logging:
   file:
     name: /var/logs/kobe-bulletin-board/application.log # 로그파일경로
