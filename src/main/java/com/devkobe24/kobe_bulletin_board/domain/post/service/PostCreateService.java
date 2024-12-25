@@ -32,15 +32,14 @@ public class PostCreateService {
 	private final PostCredentialRepository postCredentialRepository;
 
 	@Transactional(transactionManager = "createPostTransactionManager")
-	public CreatePostResponse createPost(CreatePostRequest request, String nickName) {
-
-		User writer = userRepository.findByNickName(nickName)
+	public CreatePostResponse createPost(CreatePostRequest request, String email) {
+		log.warn("email not found {}", email);
+		User user = userRepository.findByEmail(email)
 			.orElseThrow(() -> {
-				log.error("User not found with nickname: {}", nickName);
-				return new CustomException(ResponseCode.USER_NOT_EXISTS);
+				throw new CustomException(ResponseCode.USER_NOT_EXISTS);
 			});
 
-		Post newPost = this.newPost(request.title(), request.content(), request.password(), writer);
+		Post newPost = this.newPost(request.title(), request.content(), request.password(), user);
 
 		Post savedPost = postRepository.save(newPost);
 		validateSavedPost(savedPost);
