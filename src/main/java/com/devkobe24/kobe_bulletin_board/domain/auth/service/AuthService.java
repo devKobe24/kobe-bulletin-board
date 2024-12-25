@@ -8,11 +8,9 @@ import com.devkobe24.kobe_bulletin_board.domain.auth.model.request.LogoutRequest
 import com.devkobe24.kobe_bulletin_board.domain.auth.model.response.LoginResponse;
 import com.devkobe24.kobe_bulletin_board.domain.auth.model.response.LogoutResponse;
 import com.devkobe24.kobe_bulletin_board.domain.repository.TokenRepository;
-import com.devkobe24.kobe_bulletin_board.domain.repository.UserCredentialsRepository;
 import com.devkobe24.kobe_bulletin_board.domain.repository.UserRepository;
 import com.devkobe24.kobe_bulletin_board.domain.repository.entity.Token;
 import com.devkobe24.kobe_bulletin_board.domain.repository.entity.User;
-import com.devkobe24.kobe_bulletin_board.domain.repository.entity.UserCredentials;
 import com.devkobe24.kobe_bulletin_board.security.Hasher;
 import com.devkobe24.kobe_bulletin_board.security.JWTProvider;
 import lombok.RequiredArgsConstructor;
