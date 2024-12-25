@@ -32,30 +32,24 @@ public class UserService {
 	private final TokenRepository tokenRepository;
 	private final Hasher hasher;
 
+	// 1. 사용자 생성.
 	@Transactional(transactionManager = "createUserTransactionManager")
 	public CreateUserResponse createUser(CreateUserRequest request) {
-		if (userRepository.existsByNickName(request.nickName())) {
-			throw new CustomException(ResponseCode.NICK_NAME_ALREADY_EXISTS);
-		}
+		validateNickName(request.nickName());
 
 		try {
-			User newUser = this.newUser(request.userName(), request.email(), request.nickName());
-			UserCredentials newCredentials = this.newUserCredentials(request.password(), newUser);
-			newUser.setCredentials(newCredentials);
+			User newUser = buildUser(request.userName(), request.email(), request.nickName());
+			UserCredentials credentials = buildUserCredentials(request.password(), newUser);
+			newUser.setCredentials(credentials);
 
 			User savedUser = userRepository.save(newUser);
-
 			validateSavedUser(savedUser);
+
+			return new CreateUserResponse(ResponseCode.SUCCESS, UserRole.USER.getValue());
 		} catch (DataIntegrityViolationException e) {
 			log.error("Data integrity violation: {}", e.getMessage());
 			throw new CustomException(ResponseCode.USER_SAVED_FAILED, e.getMessage());
-		} catch (Exception e) {
-			log.error("Unexpected error occurred: {}", e.getMessage());
-			throw new CustomException(ResponseCode.USER_SAVED_FAILED, e.getMessage());
 		}
-		// 유저 생성시 기본값은 USER.
-		String userRole = UserRole.USER.getValue();
-		return new CreateUserResponse(ResponseCode.SUCCESS, userRole);
 	}
 
 	private User newUser(String name, String email, String nickName) {
