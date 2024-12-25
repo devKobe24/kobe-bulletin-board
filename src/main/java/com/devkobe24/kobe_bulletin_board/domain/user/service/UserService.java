@@ -129,13 +129,12 @@ public class UserService {
 		return new UpdateUserResponse(user);
 	}
 
+	// 5. 사용자 삭제
 	@Transactional(transactionManager = "deleteUserTransactionManager")
 	public DeleteUserResponse deleteUser(DeleteUserRequest request) {
 		// 유저 조회
-		User deleteTargetUser = findUserById(request);
-
-		userRepository.delete(deleteTargetUser);
-
+		User user = findUserById(request.id());
+		userRepository.delete(user);
 		return new DeleteUserResponse(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage());
 	}
 
