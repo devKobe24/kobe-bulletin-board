@@ -82,20 +82,15 @@ public class UserService {
 		}
 	}
 
+	// 2. 특정 사용자 조회.
 	@Transactional(transactionManager = "readSpecificUserTransactionManager")
 	public ReadSpecificUserResponse readSpecificUser(ReadSpecificUserRequest request) {
-		try {
-			User findUser = userRepository.findById(request.id())
-				.orElseThrow(() -> {
-					log.error("User not found with id: {}", request.id());
-					return new CustomException(ResponseCode.USER_NOT_EXISTS);
-				});
-
-			return new ReadSpecificUserResponse(findUser);
-		} catch (Exception e) {
-			log.error("Unexpected error while reading specific user: {}", e.getMessage());
-			throw new CustomException(ResponseCode.USER_READ_FAILED, e.getMessage());
-		}
+		User user = userRepository.findById(request.id())
+			.orElseThrow(() -> {
+				log.error("User Not Found: id={}", request.id());
+				return new CustomException(ResponseCode.USER_NOT_EXISTS);
+			});
+		return new ReadSpecificUserResponse(user);
 	}
 
 	@Transactional(transactionManager = "readUserListTransactionManager")
