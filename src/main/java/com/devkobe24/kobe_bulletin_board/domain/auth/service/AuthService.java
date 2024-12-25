@@ -45,11 +45,15 @@ public class AuthService {
 			throw new CustomException(ResponseCode.MISS_MATCH_PASSWORD);
 		}
 
-		// 새 토큰 생성 및 저장
-		String token = JWTProvider.createToken(user, UserRole.USER);
-		saveToken(token, user);
+		// 새로운 엑세스 토큰 및 리프레시 토큰 생성.
+		String accessToken = JWTProvider.createAccessToken(user, UserRole.USER);
+		String refreshToken = JWTProvider.createRefreshToken(user, UserRole.USER);
 
-		return new LoginResponse(ResponseCode.SUCCESS, token);
+		// 토큰 저장
+		saveToken(accessToken, user);
+		saveToken(refreshToken, user);
+
+		return new LoginResponse(ResponseCode.SUCCESS, accessToken, refreshToken);
 	}
 
 	@Transactional(transactionManager = "logoutTransactionManager")
