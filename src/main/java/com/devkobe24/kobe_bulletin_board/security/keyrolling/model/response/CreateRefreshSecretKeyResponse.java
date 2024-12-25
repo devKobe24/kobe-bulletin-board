@@ -1,5 +1,6 @@
 package com.devkobe24.kobe_bulletin_board.security.keyrolling.model.response;
 
+import com.devkobe24.kobe_bulletin_board.common.exception.ResponseCode;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 
