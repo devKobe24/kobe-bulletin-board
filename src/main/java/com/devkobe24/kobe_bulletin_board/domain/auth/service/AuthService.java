@@ -57,7 +57,7 @@ public class AuthService {
 	}
 
 	@Transactional(transactionManager = "logoutTransactionManager")
-	public LogoutResponse logout(LogoutRequest request) {
+	public LogoutResponse logout(LogoutRequest request, String refreshToken) {
 		log.debug("Request token: {}", request.token());
 
 		String extractedToken = JWTProvider.extractToken(request.token());
@@ -67,43 +67,45 @@ public class AuthService {
 
 		revokeToken(extractedToken);
 
+		if (refreshToken != null) {
+			revokeToken(refreshToken);
+		}
+
 		return new LogoutResponse(ResponseCode.SUCCESS);
 	}
 
-	// 토큰 갱신 메서드
-	@Transactional(transactionManager = "refreshTokenTransactionManager")
-	public String refreshToken(Long userId) {
-		// 사용자 조회
-		User user = userRepository.findById(userId)
-			.orElseThrow(() -> new CustomException(ResponseCode.USER_NOT_EXISTS));
-
-		// 사용자 역할(Role) 조회
-		UserCredentials credentials = userCredentialsRepository.findById(userId)
-			.orElseThrow(() -> new CustomException(ResponseCode.USER_CREDENTIALS_NOT_EXISTS));
-
-		// 기존 토큰 무효화
-		tokenRepository.findByUserIdAndIsRevokedFalse(userId)
-			.ifPresent(token -> {
-				token.setRevoked(true);
-				tokenRepository.save(token);
+	@Transactional
+	public LoginResponse refreshToken(String refreshToken) {
+		// 1. RefreshToken 검증
+		Token validToken = tokenRepository.findValidToken(refreshToken)
+			.orElseThrow(() -> {
+				throw new CustomException(ResponseCode.TOKEN_IS_INVALID);
 			});
 
-		// 새로운 토큰 생성
-		String newToken = JWTProvider.createToken(user, credentials.getRole());
+		// 2. 사용자 확인.
+		User user = validToken.getUser();
 
-		// 새로운 토큰 저장.
-		Token token = Token.builder()
+		// 3. 기존 RefreshToken 무효화
+		validToken.setRevoked(true);
+		tokenRepository.save(validToken);
+
+		// 4. 새로운 AccessToken 생성.
+		String newAccessToken = JWTProvider.createAccessToken(user, user.getUserCredentials().getRole());
+		String newRefreshToken = JWTProvider.createRefreshToken(user, user.getUserCredentials().getRole());
+
+		// 5. 새 RefreshToken 저장.
+		Token newRefreshTokenEntity = Token.builder()
+			.token(newRefreshToken)
 			.user(user)
-			.token(newToken)
 			.isRevoked(false)
 			.isExpired(false)
 			.build();
 
-		tokenRepository.save(token);
+		tokenRepository.save(newRefreshTokenEntity);
 
-		log.info("Token refreshed for userId: {}", token);
+		log.info("RefreshToken 재발급 완료: userId={}", user.getId());
 
-		return newToken;
+		return new LoginResponse(ResponseCode.SUCCESS, newAccessToken, refreshToken);
 	}
 
 	// 토큰 저장
