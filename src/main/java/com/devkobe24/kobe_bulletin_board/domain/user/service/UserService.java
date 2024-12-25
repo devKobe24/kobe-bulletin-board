@@ -138,44 +138,39 @@ public class UserService {
 		return new DeleteUserResponse(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage());
 	}
 
-	// 유저 조회 메서드
-	private User findUserById(DeleteUserRequest request) {
-		// 유저 조회
-		if (userCommonService.findById(request.id(), ResponseCode.USER_NOT_EXISTS) == null ) {
-			log.error("User not found with id: {}", request.id());
-		}
-
-		return userCommonService.findById(request.id(), ResponseCode.SUCCESS);
-	}
-
-	// 역할 변경 시 토큰 갱신 트리거
-	// 역할을 변경하는 메서드, 토큰을 갱신하도록 설정
+	// 6. 사용자 역할 변경 및 토큰 재발급
 	@Transactional(transactionManager = "changeUserRoleTransactionManager")
 	public UpdateUserRoleResponse updateUserRole(UpdateUserRoleRequest request, Long userId ,String requestNewUserRole) {
-		User user = userRepository.findById(userId)
-			.orElseThrow(() -> {
-				log.error("User not found with userId: {}", userId);
-				throw new CustomException(ResponseCode.USER_NOT_EXISTS);
-			});
-
+		// 1. 사용자 조회.
+		User user = findUserById(userId);
 		UserCredentials credentials = userCredentialsRepository.findById(userId)
 			.orElseThrow(() -> {
-			log.error("USER_CREDENTIALS_NOT_FOUND");
 			throw new CustomException(ResponseCode.USER_CREDENTIALS_NOT_EXISTS);
 		});
 
-		log.info("credential ==============>>>>>>>>>>>> {}", credentials);
-		if (UserRole.USER.getValue().equals(requestNewUserRole)) {
-			credentials.setRole(UserRole.USER);
-		} else {
-			credentials.setRole(UserRole.ADMIN);
-		}
+		// 2. 사용자 역할 변경.
+		UserRole newRole = UserRole.USER.getValue().equals(requestNewUserRole) ? UserRole.USER : UserRole.ADMIN;
+		credentials.setRole(newRole);
 		userCredentialsRepository.save(credentials);
 
-		String newUserToken = authService.refreshToken(userId);
-		log.info("new user token: {}", newUserToken);
-		String newUserRole = credentials.getRole().getValue();
-		log.info("new user role: {}", newUserRole);
+		// 3. 새로운 AccessToken 및 RefreshToken 생성
+		String newAccessToken = JWTProvider.createAccessToken(user, newRole);
+		String newRefreshToken = JWTProvider.createRefreshToken(user, newRole);
+
+		// 4. 기존 토큰 무효화
+		tokenRepository.findByUserIdAndIsRevokedFalse(userId)
+			.ifPresent(token -> {
+				token.setRevoked(true);
+				tokenRepository.save(token);
+			});
+
+		// 5. 새로운 토큰 저장
+		saveToken(newAccessToken, user);
+		saveToken(newRefreshToken, user);
+
+
+		return new UpdateUserRoleResponse(newRole.getValue(), newAccessToken);
+	}
 
 		return new UpdateUserRoleResponse(newUserRole, newUserToken);
 	}
