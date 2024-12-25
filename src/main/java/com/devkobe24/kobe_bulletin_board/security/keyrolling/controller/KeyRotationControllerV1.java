@@ -20,7 +20,7 @@ public class KeyRotationControllerV1 {
 	public CreateSecretKeyResponse rotateKeys() {
 		String activeKey = keyRotationService.rotateSecretKey();
 
-		return new CreateSecretKeyResponse(activeKey);
+		return new CreateSecretKeyResponse(ResponseCode.SUCCESS);
 	}
 
 	@PostMapping("/rotate-refreshKey")
