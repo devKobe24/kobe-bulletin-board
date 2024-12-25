@@ -7,8 +7,10 @@ import com.devkobe24.kobe_bulletin_board.domain.auth.model.response.LogoutRespon
 import com.devkobe24.kobe_bulletin_board.domain.auth.service.AuthService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseCookie;
 import org.springframework.web.bind.annotation.*;
 
 @Tag(name = "Auth API", description = "V1 Auth API")
