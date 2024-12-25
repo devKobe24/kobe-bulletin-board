@@ -56,4 +56,28 @@ public class AuthControllerV1 {
 	) {
 		return authService.logout(request, refreshToken);
 	}
+
+	@Operation(
+		summary = "토큰 갱신",
+		description = "RefreshToken을 사용해 AccessToken을 갱신합니다."
+	)
+	@PostMapping("/refresh-token")
+	public LoginResponse refreshToken(
+		@CookieValue("refreshToken") String refreshToken,
+		HttpServletResponse response
+	) {
+		LoginResponse loginResponse = authService.refreshToken(refreshToken);
+
+		// 새 RefreshToken을 HttpOnly Cookie로 설정.
+		ResponseCookie refreshTokenCookie = ResponseCookie.from("refreshToken", loginResponse.getRefreshToken())
+			.httpOnly(true)
+			.secure(true)
+			.path("/")
+			.maxAge(7 * 24 * 60 * 60) // 7일간 유효
+			.build();
+
+		response.addHeader("Set-Cookie", refreshTokenCookie.toString());
+
+		return loginResponse;
+	}
 }
