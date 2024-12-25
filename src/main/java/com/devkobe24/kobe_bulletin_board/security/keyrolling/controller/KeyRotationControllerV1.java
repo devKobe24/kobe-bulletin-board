@@ -27,6 +27,6 @@ public class KeyRotationControllerV1 {
 	public CreateRefreshSecretKeyResponse rotateRefreshKey() {
 		String activeKey = keyRotationService.rotateRefreshSecretKey();
 
-		return new CreateRefreshSecretKeyResponse(activeKey);
+		return new CreateRefreshSecretKeyResponse(ResponseCode.SUCCESS);
 	}
 }
