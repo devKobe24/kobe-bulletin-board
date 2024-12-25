@@ -33,7 +33,6 @@ public class PostCreateService {
 
 	@Transactional(transactionManager = "createPostTransactionManager")
 	public CreatePostResponse createPost(CreatePostRequest request, String email) {
-		log.warn("email not found {}", email);
 		User user = userRepository.findByEmail(email)
 			.orElseThrow(() -> {
 				throw new CustomException(ResponseCode.USER_NOT_EXISTS);
