@@ -1,5 +1,6 @@
 package com.devkobe24.kobe_bulletin_board.security.keyrolling.controller;
 
+import com.devkobe24.kobe_bulletin_board.common.exception.ResponseCode;
 import com.devkobe24.kobe_bulletin_board.security.keyrolling.model.response.CreateRefreshSecretKeyResponse;
 import com.devkobe24.kobe_bulletin_board.security.keyrolling.model.response.CreateSecretKeyResponse;
 import com.devkobe24.kobe_bulletin_board.security.keyrolling.service.KeyRotationService;
