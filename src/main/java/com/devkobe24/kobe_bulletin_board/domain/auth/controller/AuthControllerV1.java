@@ -27,9 +27,22 @@ public class AuthControllerV1 {
 	)
 	@PostMapping("/login")
 	public LoginResponse login(
-		@RequestBody @Valid LoginRequest request
+		@RequestBody @Valid LoginRequest request,
+		HttpServletResponse response
 	) {
-		return authService.login(request);
+		LoginResponse loginResponse = authService.login(request);
+
+		// RefreshToken을 HttpOnly Cookie로 설정.
+		ResponseCookie refreshTokenCookie = ResponseCookie.from("refreshToken", loginResponse.getRefreshToken())
+			.httpOnly(true)
+			.secure(true)
+			.path("/")
+			.maxAge(7 * 24 * 60 * 60) // 7일간 유효
+			.build();
+
+		response.addHeader("Set-Cookie", refreshTokenCookie.toString());
+
+		return loginResponse;
 	}
 
 	@Operation(
