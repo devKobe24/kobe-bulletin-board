@@ -44,9 +44,9 @@ public class PostControllerV1 {
 		log.debug("Authorization Header: {}", authorizationHeader);
 		String token = JWTProvider.extractToken(authorizationHeader);
 		log.debug("Extracted Token: {}", token);
-		String nickname = JWTProvider.getNickNameFromToken(token);
-		log.debug("Nick name from Token: {}", nickname);
-		return postCreateService.createPost(request, nickname);
+		String email = JWTProvider.getEmailFromToken(token);
+		log.debug("Email from Token: {}", email);
+		return postCreateService.createPost(request, email);
 	}
 
 	@Operation(
