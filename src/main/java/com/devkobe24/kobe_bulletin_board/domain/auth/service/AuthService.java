@@ -26,7 +26,6 @@ public class AuthService {
 	private final UserRepository userRepository;
 	private final TokenRepository tokenRepository;
 	private final Hasher hasher;
-	private final UserCredentialsRepository userCredentialsRepository;
 
 	@Transactional(transactionManager = "loginTransactionManager")
 	public LoginResponse login(LoginRequest request) {
