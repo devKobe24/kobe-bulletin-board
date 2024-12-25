@@ -8,10 +8,14 @@ import lombok.Getter;
 @Getter
 public class CreateSecretKeyResponse {
 
-	@Schema(description = "생성된 SECRET KEY")
-	private final String secretKey;
+	@Schema(description = "응답 코드")
+	private Integer code;
 
-	public CreateSecretKeyResponse(String secretKey) {
-		this.secretKey = secretKey;
+	@Schema(description = "응답 메시지")
+	private String message;
+
+	public CreateSecretKeyResponse(ResponseCode responseCode) {
+		this.code = responseCode.getCode();
+		this.message = responseCode.getMessage();
 	}
 }
