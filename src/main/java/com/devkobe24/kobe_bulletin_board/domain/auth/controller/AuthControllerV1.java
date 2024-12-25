@@ -51,8 +51,9 @@ public class AuthControllerV1 {
 	)
 	@PostMapping("/logout")
 	public LogoutResponse logout(
-		@RequestBody @Valid LogoutRequest request
+		@RequestBody @Valid LogoutRequest request,
+		@CookieValue(value = "refreshToken", required = false) String refreshToken
 	) {
-		return authService.logout(request);
+		return authService.logout(request, refreshToken);
 	}
 }
