@@ -21,6 +21,8 @@ public class LoginResponse {
 
 	public LoginResponse(ResponseCode responseCode, String accessToken, String refreshToken) {
 		this.code = responseCode.getCode();
-		this.token = token;
+		this.message = responseCode.getMessage();
+		this.accessToken = accessToken;
+		this.refreshToken = refreshToken;
 	}
 }
