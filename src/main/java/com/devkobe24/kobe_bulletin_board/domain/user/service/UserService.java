@@ -108,32 +108,24 @@ public class UserService {
 	// 4. 사용자 정보 수정.
 	@Transactional(transactionManager = "updateUserTransactionManger")
 	public UpdateUserResponse updateUser(UpdateUserRequest request, Long id) {
-		User user = userRepository.findById(id)
-			.orElseThrow(() -> {
-				log.error("User not found with id: {}", id);
-				return new CustomException(ResponseCode.USER_NOT_EXISTS);
-			});
+		User user = findUserById(id);
 
 		// 이름 수정
-		if (request.getUserName() != null) {
+		if (request.getUserName() != null && !request.getUserName().equals(user.getUserName())) {
 			user.setUserName(request.getUserName());
-			log.info("User name updated: {}", user.getUserName());
 		}
 
 		// 이메일 수정
-		if (request.getEmail() != null) {
+		if (request.getEmail() != null && !request.getEmail().equals(user.getEmail())) {
 			user.setEmail(request.getEmail());
-			log.info("User email updated: {}", user.getEmail());
 		}
 
 		// 닉네임 수정
-		if (request.getNickName() != null) {
+		if (request.getNickName() != null && !request.getNickName().equals(user.getNickName())) {
 			user.setNickName(request.getNickName());
-			log.info("Nick name updated: {}", user.getNickName());
 		}
 
 		userRepository.save(user);
-		log.info("User with id {} successfully updated", id);
 		return new UpdateUserResponse(user);
 	}
 
