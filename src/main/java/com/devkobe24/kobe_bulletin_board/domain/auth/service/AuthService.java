@@ -126,11 +126,11 @@ public class AuthService {
 		log.debug("Token value to be revoked: {}", token);
 		log.debug("Valid token query: {}", tokenRepository.findByToken(token));
 		// 유효한 토큰 조회
-		Token userToken = tokenRepository.findValidToken(token)
+		Token existingToken = tokenRepository.findValidToken(token)
 			.orElseThrow(() -> new CustomException(ResponseCode.TOKEN_IS_INVALID));
 
 		// 토큰을 무효화
-		userToken.setRevoked(true);
-		tokenRepository.save(userToken);
+		existingToken.setRevoked(true);
+		tokenRepository.save(existingToken);
 	}
 }
