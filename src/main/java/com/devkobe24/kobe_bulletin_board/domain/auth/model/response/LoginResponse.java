@@ -10,10 +10,16 @@ public class LoginResponse {
 	@Schema(description = "응답 코드")
 	private final Integer code;
 
-	@Schema(description = "JWT TOKEN")
-	private final String token;
+	@Schema(description = "응답 메시지")
+	private final String message;
 
-	public LoginResponse(ResponseCode responseCode, String token) {
+	@Schema(description = "Access Token")
+	private final String accessToken;
+
+	@Schema(description = "Refresh Token")
+	private final String refreshToken;
+
+	public LoginResponse(ResponseCode responseCode, String accessToken, String refreshToken) {
 		this.code = responseCode.getCode();
 		this.token = token;
 	}
