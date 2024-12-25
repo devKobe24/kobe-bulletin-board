@@ -9,6 +9,7 @@ import com.devkobe24.kobe_bulletin_board.common.exception.CustomException;
 import com.devkobe24.kobe_bulletin_board.common.exception.ResponseCode;
 import com.devkobe24.kobe_bulletin_board.common.role.UserRole;
 import com.devkobe24.kobe_bulletin_board.domain.repository.entity.User;
+import com.devkobe24.kobe_bulletin_board.security.util.SensitiveDataMasker;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -108,11 +109,13 @@ public class JWTProvider {
 
 	// 토큰 값 추출
 	public static String extractToken(String header) {
-		log.debug("Authorization header: {}", header);
+		// header 로그 (마스킹 처리)
+		log.debug("Authorization header: {}", SensitiveDataMasker.maskToken(header));
 
 		if (StringUtils.hasText(header) && header.startsWith("Bearer ")) {
 			String token = header.substring(7).trim();
-			log.debug("Extracted token: {}", token);
+			// token 로그 (마스킹 처리)
+			log.debug("Extracted token: {}", SensitiveDataMasker.maskToken(token));
 			return token;
 		}
 
