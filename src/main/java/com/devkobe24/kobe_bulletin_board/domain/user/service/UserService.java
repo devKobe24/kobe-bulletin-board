@@ -52,8 +52,14 @@ public class UserService {
 		}
 	}
 
-	private User newUser(String name, String email, String nickName) {
-		User newUser = User.builder()
+	private void validateNickName(String nickName) {
+		if (userRepository.existsByNickName(nickName)) {
+			throw new CustomException(ResponseCode.NICK_NAME_ALREADY_EXISTS);
+		}
+	}
+
+	private User buildUser(String name, String email, String nickName) {
+		return User.builder()
 			.userName(name)
 			.email(email)
 			.nickName(nickName)
