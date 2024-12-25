@@ -93,18 +93,19 @@ public class UserService {
 		return new ReadSpecificUserResponse(user);
 	}
 
+	// 3. 사용자 목록 조회
 	@Transactional(transactionManager = "readUserListTransactionManager")
 	public ReadUserListResponse readUserList() {
 		List<User> users = userRepository.findAll();
 
 		if (users.isEmpty()) {
-			log.warn("No users found in the database");
 			throw new CustomException(ResponseCode.USER_LIST_EMPTY);
 		}
 
 		return new ReadUserListResponse(users);
 	}
 
+	// 4. 사용자 정보 수정.
 	@Transactional(transactionManager = "updateUserTransactionManger")
 	public UpdateUserResponse updateUser(UpdateUserRequest request, Long id) {
 		User user = userRepository.findById(id)
