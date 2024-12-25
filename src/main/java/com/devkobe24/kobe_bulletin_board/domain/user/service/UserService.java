@@ -172,6 +172,23 @@ public class UserService {
 		return new UpdateUserRoleResponse(newRole.getValue(), newAccessToken);
 	}
 
-		return new UpdateUserRoleResponse(newUserRole, newUserToken);
+	// 토큰 저장 메서드
+	private void saveToken(String token, User user) {
+		Token userToken = Token.builder()
+			.token(token)
+			.user(user)
+			.isRevoked(false)
+			.isExpired(false)
+			.build();
+
+		tokenRepository.save(userToken);
+	}
+
+	// 공통 사용자 조회 메서드
+	private User findUserById(Long id) {
+		return userRepository.findById(id)
+			.orElseThrow(() -> {
+				throw new CustomException(ResponseCode.USER_NOT_EXISTS);
+			});
 	}
 }
