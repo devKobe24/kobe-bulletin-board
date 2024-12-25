@@ -139,8 +139,19 @@ public class JWTProvider {
 	}
 
 	public static String getEmailFromToken(String token) {
-		DecodedJWT jwt = decodedJWT(token);
-		return jwt.getClaim("email").asString();
+		try {
+			log.debug("Token before decoding email: {}", token);
+			DecodedJWT jwt = decodedJWT(token);
+			String email = jwt.getSubject();
+			log.debug("Decoded email: {}", email);
+			return email;
+		} catch (JWTDecodeException e) {
+			log.error("Invalid email token format: {}", e.getMessage());
+			throw new IllegalArgumentException("Invalid email token format", e);
+		} catch (Exception e) {
+			log.error("Unexpected error occurred while decoding email: {}", e.getMessage());
+			throw new IllegalArgumentException("Unexpected error occurred while decoding email", e);
+		}
 	}
 
 	public static String getUserRoleFromToken(String token) {
