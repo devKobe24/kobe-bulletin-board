@@ -67,16 +67,12 @@ public class UserService {
 			.build();
 	}
 
-	private UserCredentials newUserCredentials(String password, User user) {
-		String hashedValue = hasher.getHashingValue(password);
-
-		UserCredentials credentials = UserCredentials.builder()
+	private UserCredentials buildUserCredentials(String password, User user) {
+		return UserCredentials.builder()
 			.user(user)
-			.hashedPassword(hashedValue)
-			.role(UserRole.USER) // 가입시 모든 유저/관리자는 USER로 role을 부여 받고 관리자는 추후에 DB에서 따로 role을 ADMIN으로 수정하여 바뀌는 시스템.
+			.hashedPassword(hasher.getHashingValue(password))
+			.role(UserRole.USER)
 			.build();
-
-		return credentials;
 	}
 
 	private void validateSavedUser(User savedUser) {
