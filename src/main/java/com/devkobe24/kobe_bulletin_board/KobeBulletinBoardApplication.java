@@ -1,5 +1,6 @@
 package com.devkobe24.kobe_bulletin_board;
 
+import com.devkobe24.kobe_bulletin_board.security.util.SensitiveDataMasker;
 import io.github.cdimascio.dotenv.Dotenv;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
