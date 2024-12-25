@@ -65,8 +65,6 @@ public class UserService {
 			.nickName(nickName)
 			.createdAt(new Timestamp(System.currentTimeMillis()))
 			.build();
-
-		return newUser;
 	}
 
 	private UserCredentials newUserCredentials(String password, User user) {
