@@ -108,11 +108,8 @@ public class AuthService {
 		return new LoginResponse(ResponseCode.SUCCESS, newAccessToken, refreshToken);
 	}
 
-	// 토큰 저장
+	// 토큰 저장 및 갱신 메서드
 	private void saveToken(String token, User user) {
-		// 기존 토큰 무효화
-		tokenRepository.existsByUserIdAndIsRevoked(user.getId());
-
 		// 새로운 토큰 저장
 		Token userToken = Token.builder()
 			.token(token)
