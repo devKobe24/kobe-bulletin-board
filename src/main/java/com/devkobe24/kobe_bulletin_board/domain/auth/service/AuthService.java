@@ -13,6 +13,7 @@ import com.devkobe24.kobe_bulletin_board.domain.repository.entity.Token;
 import com.devkobe24.kobe_bulletin_board.domain.repository.entity.User;
 import com.devkobe24.kobe_bulletin_board.security.Hasher;
 import com.devkobe24.kobe_bulletin_board.security.JWTProvider;
+import com.devkobe24.kobe_bulletin_board.security.util.SensitiveDataMasker;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -48,6 +49,10 @@ public class AuthService {
 		// 새로운 엑세스 토큰 및 리프레시 토큰 생성.
 		String accessToken = JWTProvider.createAccessToken(user, UserRole.USER);
 		String refreshToken = JWTProvider.createRefreshToken(user, UserRole.USER);
+
+		// 토큰 로그(마스킹 처리)
+		log.debug("AccessToken issued: {}", SensitiveDataMasker.maskToken(accessToken));
+		log.debug("RefreshToken issued: {}", SensitiveDataMasker.maskToken(refreshToken));
 
 		// 토큰 저장
 		saveToken(accessToken, user);
