@@ -10,10 +10,10 @@ public class WebConfig implements WebMvcConfigurer {
 	@Override
 	public void addCorsMappings(CorsRegistry registry) {
 		registry.addMapping("/**") // 모든 경로 허용
-			.allowedOriginPatterns("http://localhost:*")
-			.allowedMethods("GET", "POST", "PUT", "DELETE")
+			.allowedOriginPatterns("https://api.kobe-bulletin-board.com")
+			.allowedMethods("GET", "POST", "PUT", "DELETE", "PATCH")
 			.allowedHeaders("*")
 			.allowCredentials(true) // 자격 증명 허용
-			.maxAge(3600);
+			.maxAge(3600); // 1시간 설정.
 	}
 }
