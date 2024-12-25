@@ -18,15 +18,13 @@ public class KeyRotationControllerV1 {
 
 	@PostMapping("/rotate-keys")
 	public CreateSecretKeyResponse rotateKeys() {
-		String activeKey = keyRotationService.rotateSecretKey();
-
+		keyRotationService.rotateSecretKey();
 		return new CreateSecretKeyResponse(ResponseCode.SUCCESS);
 	}
 
 	@PostMapping("/rotate-refreshKey")
 	public CreateRefreshSecretKeyResponse rotateRefreshKey() {
-		String activeKey = keyRotationService.rotateRefreshSecretKey();
-
+		keyRotationService.rotateRefreshSecretKey();
 		return new CreateRefreshSecretKeyResponse(ResponseCode.SUCCESS);
 	}
 }
