@@ -63,13 +63,12 @@ public class JWTProvider {
 			.sign(Algorithm.HMAC256(secretKey));
 	}
 
-	public static String createRefreshToken(String nickname, String email, UserRole role) {
+	public static String createRefreshToken(User user, UserRole role) {
 		return JWT.create()
-			.withSubject(email)
-			.withClaim("nickname", nickname)
+			.withSubject(user.getEmail())
 			.withClaim("role", role.getValue())
 			.withIssuedAt(new Date())
-			.withExpiresAt(new Date(System.currentTimeMillis() + tokenTimeForMinute * Constants.ON_MINUTE_TO_MILLIS))
+			.withExpiresAt(new Date(System.currentTimeMillis() + refreshTokenTimeForMinute * Constants.ON_MINUTE_TO_MILLIS))
 			.sign(Algorithm.HMAC256(refreshSecretKey));
 	}
 
