@@ -5,6 +5,7 @@ springdoc:
     operations-sorter: "method"
     path: /v1/swagger-ui
     url: /v1/api-docs
+    use-root-path: true
   api-docs:
     path: /v1/api-docs
 spring:
