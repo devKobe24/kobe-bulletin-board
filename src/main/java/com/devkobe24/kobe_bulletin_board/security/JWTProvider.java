@@ -108,7 +108,7 @@ public class JWTProvider {
 	}
 
 	// 토큰 값 추출
-	public static String extractToken(String header) {
+	public static String extractBearerToken(String header) {
 		// header 로그 (마스킹 처리)
 		log.debug("Authorization header: {}", SensitiveDataMasker.maskToken(header));
 
