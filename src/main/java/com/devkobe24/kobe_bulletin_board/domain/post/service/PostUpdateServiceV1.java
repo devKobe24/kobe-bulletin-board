@@ -29,7 +29,7 @@ public class PostUpdateServiceV1 {
 	private final CommonService<Post, Long> postCommonService;
 
 	@Transactional(transactionManager = "updatePostTransactionManager")
-	public UpdatePostResponse updatePost(UpdatePostRequest request, String nickName) {
+	public UpdatePostResponse updatePost(UpdatePostRequest request, String email) {
 		try {
 			// 사용자 조회
 			User user = findByEmail(email);
