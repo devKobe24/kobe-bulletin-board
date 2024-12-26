@@ -32,7 +32,7 @@ public class PostUpdateServiceV1 {
 	public UpdatePostResponse updatePost(UpdatePostRequest request, String nickName) {
 		try {
 			// 사용자 조회
-			User writer = findUserByNickName(nickName);
+			User user = findByEmail(email);
 			// 게시물 조회
 			Post existingPost = findPostById(request);
 
@@ -61,7 +61,7 @@ public class PostUpdateServiceV1 {
 			}
 
 			// 작성자 다시 지정
-			existingPost.setUser(writer);
+			existingPost.setUser(user);
 
 			// 수정 시간 갱신
 			existingPost.setCreatedAt(new Timestamp(System.currentTimeMillis()));
