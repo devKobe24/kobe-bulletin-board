@@ -28,8 +28,6 @@ public class PostDeleteService {
 	private final CommonService<Post, Long> commonService;
 	private final Hasher hasher;
 	private final PostCredentialRepository postCredentialRepository;
-	private final UserCredentialsRepository userCredentialsRepository;
-	private final UserRepository userRepository;
 
 	@Transactional(transactionManager = "deletePostTransactionManager")
 	public DeletePostResponse deletePost(DeletePostRequest request, String authorizationHeader) {
