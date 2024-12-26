@@ -78,7 +78,7 @@ public class PostCreateService {
 		User user = newPost.getUser();
 		UserRole role = user.getUserCredentials().getRole();
 
-		String newPostToken = JWTProvider.createPostToken(newPostUser, newPostUserRole);
+		String newPostToken = JWTProvider.createPostToken(post, user, role);
 
 		PostCredentials postCredentials = PostCredentials.builder()
 			.post(newPost)
