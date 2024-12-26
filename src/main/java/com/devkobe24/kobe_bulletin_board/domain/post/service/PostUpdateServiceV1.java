@@ -80,14 +80,14 @@ public class PostUpdateServiceV1 {
 	}
 
 	// 사용자 조회 메서드
-	private User findUserByNickName(String nickName) {
+	private User findByEmail(String email) {
 		// 사용자 조회
-		User writer = userRepository.findByNickName(nickName)
+		User user = userRepository.findByEmail(email)
 			.orElseThrow(() -> {
-				log.error("User not found with nickname {}", nickName);
+				log.error("User not found with email {}", email);
 				return new CustomException(ResponseCode.USER_NOT_EXISTS);
 			});
-		return writer;
+		return user;
 	}
 
 	// 게시물 조회 메서드
