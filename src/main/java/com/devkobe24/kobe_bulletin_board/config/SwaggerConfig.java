@@ -14,6 +14,9 @@ public class SwaggerConfig {
 	@Bean
 	public OpenAPI customOpenAPI() {
 		return new OpenAPI()
+			.addServersItem(new Server()
+				.url("https://api.kobe-bulletin-board.com")
+				.description("Production Server"))
 			.info(new Info()
 				.title("Kobe Bulletin Board API")
 				.version("V1.0.1")
