@@ -34,7 +34,11 @@ public class PostDeleteService {
 	private final UserRepository userRepository;
 
 	@Transactional(transactionManager = "deletePostTransactionManager")
-	public DeletePostResponse deletePost(DeletePostRequest request, String userRole) {
+	public DeletePostResponse deletePost(DeletePostRequest request, String authorizationHeader) {
+		// Post token 가져오기
+		String token = request.getPostToken();
+		// UserRole 추출
+		String userRole = JWTProvider.getUserRoleFromToken(token);
 		// 게시물 조회 및 게시 유무 여부 확인.
 		Post existingPost = existsPost(request);
 
@@ -43,7 +47,7 @@ public class PostDeleteService {
 			deletePostWhenAdmin(existingPost);
 		} else {
 			// 유저의 역할이 USER(일반 유저)일 때 삭제 로직.
-			deletePostWhenUser(request, existingPost);
+			deletePostWhenUser(request, existingPost, authorizationHeader);
 		}
 		return new DeletePostResponse(ResponseCode.SUCCESS);
 	}
