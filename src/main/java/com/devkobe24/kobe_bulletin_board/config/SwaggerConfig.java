@@ -19,7 +19,7 @@ public class SwaggerConfig {
 				.description("Production Server"))
 			.info(new Info()
 				.title("Kobe Bulletin Board API")
-				.version("V1.0.1")
+				.version("V1.0.2")
 				.description("API documentation for Kobe Bulletin Board"))
 			.addSecurityItem(new SecurityRequirement().addList("bearerAuth"))
 			.components(new io.swagger.v3.oas.models.Components()
