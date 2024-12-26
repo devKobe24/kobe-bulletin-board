@@ -124,19 +124,19 @@ public class JWTProvider {
 		throw new IllegalArgumentException("Invalid Authorization header");
 	}
 
-	public static String getNickNameFromToken(String token) {
+	public static String getPostIdFromToken(String token) {
 		try {
-			log.debug("Token before decoding nickname: {}", token);
+			log.debug("Token before decoding postId: {}", token);
 			DecodedJWT jwt = decodedJWT(token);
-			String nickname = jwt.getClaim("nickname").asString();
-			log.debug("Decoded nickname: {}", nickname);
-			return nickname;
+			String postId = jwt.getSubject();
+			log.debug("Decoded postId: {}", postId);
+			return postId;
 		} catch (JWTDecodeException e) {
-			log.error("Invalid nickname token format: {}", e.getMessage());
-			throw new IllegalArgumentException("Invalid nickname token format", e);
+			log.error("Invalid postId token format: {}", e.getMessage());
+			throw new IllegalArgumentException("Invalid postId token format", e);
 		} catch (Exception e) {
-			log.error("Unexpected error occurred while decoding nickname: {}", e.getMessage());
-			throw new IllegalArgumentException("Unexpected error occurred while decoding nickname", e);
+			log.error("Unexpected error occurred while decoding postId: {}", e.getMessage());
+			throw new IllegalArgumentException("Unexpected error occurred while decoding postId", e);
 		}
 	}
 
