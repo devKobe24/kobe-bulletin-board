@@ -115,4 +115,38 @@ public class PostDeleteService {
 		// 게시물 삭제
 		postRepository.delete(existingPost);
 	}
+
+	// Unwrapping 메서드
+	private String unWrappedToken(Optional<String> optionalToken) {
+		// Unwrapping
+		String token = optionalToken.orElseThrow(() -> {
+			log.warn("Token not found");
+			return new CustomException(ResponseCode.TOKEN_IS_NOT_EXISTS);
+		});
+		return token;
+	}
+
+	// Post Id Long 타입으로 변환 메서드
+	private Long convertedPostId(String extractedId) {
+		try {
+			Long convertedPostId = Long.valueOf(extractedId);
+			return convertedPostId;
+		} catch (NumberFormatException e) {
+			log.warn("숫자 형식 오류 message: {}", e.getMessage());
+			throw new NumberFormatException(e.getMessage());
+		}
+	}
+
+	// Post token revoke, expired 메서드
+	// Post token 무효화 메서드
+	private void invalidatedPostToken(Long postId) {
+		Optional<PostCredentials> validPostToken = postCredentialRepository.findValidPostTokenByPostId(postId);
+
+		validPostToken.ifPresent(postToken -> {
+			// 토큰 revoke
+			postToken.setRevoked(true);
+			// 토큰 expired
+			postToken.setExpired(true);
+		});
+	}
 }
