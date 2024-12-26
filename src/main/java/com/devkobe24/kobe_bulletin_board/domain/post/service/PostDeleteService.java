@@ -8,8 +8,6 @@ import com.devkobe24.kobe_bulletin_board.domain.post.model.request.DeletePostReq
 import com.devkobe24.kobe_bulletin_board.domain.post.model.response.DeletePostResponse;
 import com.devkobe24.kobe_bulletin_board.domain.repository.PostCredentialRepository;
 import com.devkobe24.kobe_bulletin_board.domain.repository.PostRepository;
-import com.devkobe24.kobe_bulletin_board.domain.repository.UserCredentialsRepository;
-import com.devkobe24.kobe_bulletin_board.domain.repository.UserRepository;
 import com.devkobe24.kobe_bulletin_board.domain.repository.entity.Post;
 import com.devkobe24.kobe_bulletin_board.domain.repository.entity.PostCredentials;
 import com.devkobe24.kobe_bulletin_board.security.Hasher;
