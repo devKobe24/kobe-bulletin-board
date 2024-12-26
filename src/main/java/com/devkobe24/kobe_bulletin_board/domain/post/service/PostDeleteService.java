@@ -51,7 +51,7 @@ public class PostDeleteService {
 	// 유저의 역할이 ADMIN 일 때 삭제 로직.
 	private void deletePostWhenAdmin(Post existingPost) {
 		log.debug("Admin is deleting the post with ID: {}", existingPost.getId());
-		deletePost(Optional.empty(), existingPost);
+		deletePostAndInvalidateToken(Optional.empty(), existingPost);
 	}
 
 	// 유저의 역할이 USER(일반 유저)일 때 삭제 로직.
@@ -103,14 +103,15 @@ public class PostDeleteService {
 	}
 
 	// 게시물 삭제 및 토큰 revoke, expired
-	private void deletePost(Optional<PostCredentials> token, Post existingPost) {
-
-		token.ifPresent(t -> {
-			// 토큰 revoke
-			t.setRevoked(true);
-			// 토큰 expired
-			t.setExpired(true);
-		});
+	private void deletePostAndInvalidateToken(Optional<String> optionalToken, Post existingPost) {
+		// Post Token 언래핑
+		String token = unWrappedToken(optionalToken);
+		// Post ID 추출(String Type)
+		String extractedId = JWTProvider.getPostIdFromToken(token);
+		// Post ID Long 타입으로 변환
+		Long postId = convertedPostId(extractedId);
+		// Post token revoke, expired(Post Token 무효화)
+		invalidatedPostToken(postId);
 		// 게시물 삭제
 		postRepository.delete(existingPost);
 	}
