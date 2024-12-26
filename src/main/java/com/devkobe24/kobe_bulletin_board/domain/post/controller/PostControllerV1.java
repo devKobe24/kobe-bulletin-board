@@ -80,8 +80,8 @@ public class PostControllerV1 {
 		@RequestHeader("Authorization") String authorizationHeader
 	) {
 		String token = JWTProvider.extractToken(authorizationHeader);
-		String nickname = JWTProvider.getNickNameFromToken(token);
-		return postUpdateServiceV1.updatePost(request, nickname);
+		String email = JWTProvider.getEmailFromToken(token);
+		return postUpdateServiceV1.updatePost(request, email);
 	}
 
 	@Operation(
