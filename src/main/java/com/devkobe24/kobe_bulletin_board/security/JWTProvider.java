@@ -45,10 +45,12 @@ public class JWTProvider {
 		JWTProvider.tokenTimeForMinute = refreshTokenTime;
 	}
 
-	public static String createPostToken(User userName, UserRole userRole) {
+	// Post Token 생성 메서드
+	public static String createPostToken(Post post, User user, UserRole role) {
 		return JWT.create()
-			.withSubject(userName.getUserName())
-			.withClaim("userRole", userRole.getValue())
+			.withSubject(post.getId().toString())
+			.withClaim("username", user.getUserName())
+			.withClaim("role", role.getValue())
 			.withIssuedAt(new Date())
 			.withExpiresAt(new Date(System.currentTimeMillis() + tokenTimeForMinute * Constants.ON_MINUTE_TO_MILLIS))
 			.sign(Algorithm.HMAC256(secretKey));
