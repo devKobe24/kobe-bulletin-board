@@ -55,14 +55,14 @@ public class PostDeleteService {
 	}
 
 	// 유저의 역할이 USER(일반 유저)일 때 삭제 로직.
-	private void deletePostWhenUser(DeletePostRequest request, Post existingPost) {
+	private void deletePostWhenUser(DeletePostRequest request, Post existingPost, String authorizationHeader) {
 		Long postId = request.getId();
 		// 게시물 비밀번호 검증 후 추출한 비밀 번호
 		validatePostPassword(request, existingPost);
 		// 토큰 검증, 추츨, 비교
-		PostCredentials token = validatePostToken(postId, request);
+		String token = validatePostToken(authorizationHeader);
 		// 게시물 삭제
-		deletePost(Optional.ofNullable(token), existingPost);
+		deletePostAndInvalidateToken(Optional.ofNullable(token), existingPost);
 	}
 
 	private Post existsPost(DeletePostRequest request) {
