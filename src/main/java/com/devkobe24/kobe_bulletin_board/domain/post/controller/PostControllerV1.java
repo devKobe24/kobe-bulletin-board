@@ -93,10 +93,6 @@ public class PostControllerV1 {
 		@RequestBody @Valid DeletePostRequest request,
 		@RequestHeader("Authorization") String authorizationHeader
 	) {
-		String token = JWTProvider.extractToken(authorizationHeader);
-
-		String userRole = JWTProvider.getUserRoleFromToken(token);
-
-		return postDeleteService.deletePost(request, userRole);
+		return postDeleteService.deletePost(request, authorizationHeader);
 	}
 }
