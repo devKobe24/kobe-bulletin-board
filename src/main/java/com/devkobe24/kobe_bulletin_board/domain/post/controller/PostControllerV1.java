@@ -44,7 +44,7 @@ public class PostControllerV1 {
 		@RequestHeader("Authorization") String authorizationHeader
 		) {
 		log.debug("Authorization Header: {}", authorizationHeader);
-		String token = JWTProvider.extractToken(authorizationHeader);
+		String token = JWTProvider.extractBearerToken(authorizationHeader);
 		log.debug("Extracted Token: {}", token);
 		String email = JWTProvider.getEmailFromToken(token);
 		log.debug("Email from Token: {}", email);
@@ -79,7 +79,7 @@ public class PostControllerV1 {
 		@RequestBody @Valid UpdatePostRequest request,
 		@RequestHeader("Authorization") String authorizationHeader
 	) {
-		String token = JWTProvider.extractToken(authorizationHeader);
+		String token = JWTProvider.extractBearerToken(authorizationHeader);
 		String email = JWTProvider.getEmailFromToken(token);
 		return postUpdateServiceV1.updatePost(request, email);
 	}
