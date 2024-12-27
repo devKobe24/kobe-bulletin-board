@@ -23,6 +23,7 @@ public class CreatePostResponse {
 	public CreatePostResponse(ResponseCode responseCode, PostCredentials postCredentials) {
 		this.code = responseCode.getCode();
 		this.message = responseCode.getMessage();
-		this.postToken = postToken;
+		this.postToken = postCredentials.getPostToken();
+		this.postId = postCredentials.getPostId();
 	}
 }
