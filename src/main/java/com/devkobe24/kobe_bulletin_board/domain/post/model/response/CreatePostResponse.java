@@ -1,6 +1,7 @@
 package com.devkobe24.kobe_bulletin_board.domain.post.model.response;
 
 import com.devkobe24.kobe_bulletin_board.common.exception.ResponseCode;
+import com.devkobe24.kobe_bulletin_board.domain.repository.entity.PostCredentials;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 
