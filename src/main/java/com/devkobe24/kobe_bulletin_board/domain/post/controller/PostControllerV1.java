@@ -43,12 +43,7 @@ public class PostControllerV1 {
 		@RequestBody @Valid CreatePostRequest request,
 		@RequestHeader("Authorization") String authorizationHeader
 		) {
-		log.debug("Authorization Header: {}", authorizationHeader);
-		String token = JWTProvider.extractBearerToken(authorizationHeader);
-		log.debug("Extracted Token: {}", token);
-		String email = JWTProvider.getEmailFromToken(token);
-		log.debug("Email from Token: {}", email);
-		return postCreateService.createPost(request, email);
+		return postCreateService.createPost(request, authorizationHeader);
 	}
 
 	@Operation(

@@ -32,24 +32,16 @@ public class PostCreateService {
 	private final PostCredentialRepository postCredentialRepository;
 
 	@Transactional(transactionManager = "createPostTransactionManager")
-	public CreatePostResponse createPost(CreatePostRequest request, String email) {
-		User user = userRepository.findByEmail(email)
-			.orElseThrow(() -> {
-				throw new CustomException(ResponseCode.USER_NOT_EXISTS);
-			});
-
-		Post newPost = this.newPost(request.title(), request.content(), request.password(), user);
-
+	public CreatePostResponse createPost(CreatePostRequest request, String authorizationHeader) {
+		User user = user(authorizationHeader);
+		Post newPost = this.newPost(request, user);
 		Post savedPost = postRepository.save(newPost);
+
 		validateSavedPost(savedPost);
 
-		String hashedPassword = hasher.getHashingValue(request.password());
-		String token = postCredentialRepository.findValidPostToken(newPost.getId(), hashedPassword).orElseThrow(() -> {
-			log.error("Could not find valid token for post: {}", newPost.getId());
-			throw new CustomException(ResponseCode.TOKEN_IS_INVALID);
-		});
+		PostCredentials postCredentials = postCredentials(newPost);
 
-		return new CreatePostResponse(ResponseCode.SUCCESS, token);
+		return new CreatePostResponse(ResponseCode.SUCCESS, postCredentials);
 	}
 
 	private Post newPost(String title, String content, String password, User writer) {
