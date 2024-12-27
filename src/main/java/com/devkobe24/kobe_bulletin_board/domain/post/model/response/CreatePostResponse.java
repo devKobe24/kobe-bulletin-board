@@ -17,7 +17,10 @@ public class CreatePostResponse {
 	@Schema(description = "게시물 토큰")
 	private final String postToken;
 
-	public CreatePostResponse(ResponseCode responseCode, String postToken) {
+	@Schema(description = "게시물 ID")
+	private final Long postId;
+
+	public CreatePostResponse(ResponseCode responseCode, PostCredentials postCredentials) {
 		this.code = responseCode.getCode();
 		this.message = responseCode.getMessage();
 		this.postToken = postToken;
