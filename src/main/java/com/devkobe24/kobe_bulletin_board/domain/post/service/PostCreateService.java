@@ -110,6 +110,36 @@ public class PostCreateService {
 		postCredentialRepository.save(postCredentials);
 	}
 
+	private User newUser(Post newPost) {
+		try {
+			User newPostUser = newPost.getUser();
+			return newPostUser;
+		} catch (CustomException e) {
+			log.warn("Post is not exists: {}", e.getMessage());
+			throw new CustomException(ResponseCode.POST_NOT_EXISTS);
+		}
+	}
+
+	private UserRole newUserRole(User user) {
+		try {
+			UserRole newPostUserRole = user.getUserCredentials().getRole();
+			return newPostUserRole;
+		} catch (CustomException e) {
+			log.warn("User Role is not exists: {}", e.getMessage());
+			throw new CustomException(ResponseCode.USER_ROLE_NOT_EXISTS);
+		}
+	}
+
+	private String newPostToken(Post post, User user, UserRole userRole) {
+		try {
+			String newPostToken = JWTProvider.createPostToken(post, user, userRole);
+			return newPostToken;
+		} catch (CustomException e) {
+			log.warn("JWT token generation failed: {}", e.getMessage());
+			throw new CustomException(ResponseCode.TOKEN_GENERATE_FAIL);
+		}
+	}
+
 	private void validateSavedPost(Post savedPost) {
 		if (savedPost == null) {
 			log.error("POST_SAVED_FAILED: Post is null");
