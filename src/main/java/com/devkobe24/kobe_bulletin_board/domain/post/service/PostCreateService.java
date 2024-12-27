@@ -44,19 +44,46 @@ public class PostCreateService {
 		return new CreatePostResponse(ResponseCode.SUCCESS, postCredentials);
 	}
 
-	private Post newPost(String title, String content, String password, User writer) {
-		String hashedPassword = hasher.getHashingValue(password);
+	private PostCredentials postCredentials(Post newPost) {
+		Long postId = newPost.getId();
+		PostCredentials postCredentials = postCredentialRepository.findActivePostCredentialsByPostId(postId)
+			.orElseThrow(() -> {
+			log.warn("Couldn't find active post credentials for {}", postId);
+			throw new CustomException(ResponseCode.POST_CREDENTIALS_NOT_FOUND);
+		});
+		return postCredentials;
+	}
+
+	private User user(String authorizationHeader) {
+		// Access Token 추출
+		String extractedToken = JWTProvider.extractBearerToken(authorizationHeader);
+		// Email 추출
+		String extractedEmail = JWTProvider.getEmailFromToken(extractedToken);
+
+		// User
+		User user = userRepository.findByEmail(extractedEmail).orElseThrow(() -> {
+			log.warn("User not found with email {}", extractedEmail);
+			throw new CustomException(ResponseCode.USER_NOT_EXISTS);
+		});
+
+		return user;
+	}
+
+	private Post newPost(CreatePostRequest request, User user) {
+		String hashedPassword = hasher.getHashingValue(request.password());
 		try {
 			Post newPost = Post.builder()
-				.title(title)
-				.content(content)
+				.title(request.title())
+				.content(request.content())
 				.password(hashedPassword)
-				.user(writer)
+				.user(user)
 				.createdAt(new Timestamp(System.currentTimeMillis()))
 				.viewCount(0)
 				.build();
+			postRepository.save(newPost);
 
-			createPostCredentials(newPost, hashedPassword);
+			// TODO: savePostCredentials
+			savePostCredentials(newPost, hashedPassword);
 
 			return newPost;
 		} catch (DataIntegrityViolationException e) {
@@ -65,12 +92,12 @@ public class PostCreateService {
 		}
 	}
 
-	private PostCredentials createPostCredentials(Post newPost, String hashedPassword) {
-		Post post = newPost;
-		User user = newPost.getUser();
-		UserRole role = user.getUserCredentials().getRole();
+	// Save PostCredentials
+	private void savePostCredentials(Post newPost, String hashedPassword) {
 
-		String newPostToken = JWTProvider.createPostToken(post, user, role);
+		User user = newUser(newPost);
+		UserRole userRole = newUserRole(user);
+		String newPostToken = newPostToken(newPost, user, userRole);
 
 		PostCredentials postCredentials = PostCredentials.builder()
 			.post(newPost)
@@ -81,8 +108,6 @@ public class PostCreateService {
 			.build();
 
 		postCredentialRepository.save(postCredentials);
-
-		return postCredentials;
 	}
 
 	private void validateSavedPost(Post savedPost) {
